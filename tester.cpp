@@ -4,6 +4,13 @@
 using namespace std;
 
 int main(){
-	cout << Esc::rst;
+	canon();
+	noecho();
+
+	cinchr();
+	cinchr();
+
+	nocanon();
+	echo();
 	return 0;
 }
