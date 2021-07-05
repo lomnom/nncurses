@@ -91,11 +91,14 @@ public:
 	}
 };
 
-// class Texture{
-// public:
-// 	string character;
-// 	Style style;
-// 	Texture(String character,Style sty)
-// };
+class Texture{
+public:
+	string* character;
+	Style* style;
+	Texture(string* characte,Style* styl):style(styl),character(characte){};
+	string getesc(){
+		return style->getesc() + *character + Esc::rst;
+	}
+};
 
 #endif
