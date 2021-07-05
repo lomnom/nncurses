@@ -1,8 +1,8 @@
 #ifndef Escapes
 #define Escapes
 
-#include <iostream>
-#define sick static inline //ehehhehehe
+#include <string>
+#define sick static inline const //ehehhehehe
 
 using namespace std;
 
@@ -19,13 +19,19 @@ public:
 	sick string nl="\n"; //newline
 	sick string cr="\r"; //carraige return
 
+	sick string nlcr="\n\r";
+	sick string crnl=nlcr;
+
 	sick string esc="\e"; //escape
 
 	sick string savescr="\e[?47h"; //save current state of screen
 	sick string loadscr="\e[?47l"; //load state of screen
 
-	sick string savecurs="\e[s"; //save current cursor position
-	sick string loadcurs="\e[u"; //load from save
+	sick string savecurs="\e[s"; //save current cursor position without attrs
+	sick string loadcurs="\e[u"; //load from save without attrs, cant load from savecursattr
+
+	sick string savecursattr="\e7";
+	sick string loadcursattr="\e8";
 
 	sick string inviscurs="\e[?25l"; //make cursor invisible
 	sick string viscurs="\e[?25h"; //make cursor visible
@@ -77,13 +83,19 @@ public:
 	sick string strk="\e[9m"; //strikethrough
 
 	sick string rst="\e[0m"; //reset style
+	sick string rstfg="\e[39m";
+	sick string rstbg="\e[49m";
+
 	sick string unblddim="\e[22m"; //unbold and undim
 	sick string undimbld=unblddim; //alias
+	sick string unital="\e[23m";
 	sick string unuline="\e[24m";
 	sick string unblnk="\e[25m";
 	sick string uninv="\e[27m";
 	sick string unhid="\e[28m";
 	sick string unstrk="\e[29m";
+
+	sick string rstfnt=undimbld+unuline+unblnk+uninv+unhid+unstrk+unital;
 
 	sick string fgblck="\e[30m"; //foreground black
 	sick string fgred="\e[31m"; //foreground red
@@ -104,12 +116,23 @@ public:
 	sick string bgwhit="\e[47m"; //background white
 
 	// https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
-	sick string fgidcol(short id){
+	sick string fgidcol(uint8_t id){
 		return "\e[38;5;"+to_string(id)+"m";
 	};
-	sick string bgidcol(short id){
+	sick string bgidcol(uint8_t id){
 		return "\e[48;5;"+to_string(id)+"m";
 	};
+
+	sick string wintitle(string title){
+		return "\033]0;"+title+"\a";
+	};
+
+	sick string bluarrow="\e]7;m\a";
+	sick string notif(string message){
+		return "\e]9;"+message+"\a";
+	}
+
+	sick string freeze="\ec"; //???
 };
 
 #endif
