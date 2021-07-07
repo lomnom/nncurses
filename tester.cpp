@@ -12,7 +12,7 @@ int sleep(int sec,int msec,int mcrsec,int nsec){
 	return nanosleep(&timeSec,&timeNsec);
 }
 
-int main(){
+namespace tex{ //textures
 	short red=1;
 	short cyan=6;
 	short transp=-1;
@@ -25,11 +25,20 @@ int main(){
 	string transpString=" ";
 	Texture transpTexture(&transpString,&transpStyle);
 
-	Terminal terminal(&transpTexture);
+	Col256 cyanCol(&cyan,&cyan);
+	Style cyanStyle(&cyanCol,&transpEffects);
+	Texture cyanTexture(&transpString,&cyanStyle);
+}
+
+int main(){
+	Terminal terminal(&tex::cyanTexture);
 
 	while (true){
 		terminal.project();
 		sleep(1,0,0,0);
+		if (cinchr()=='q'){
+			break;
+		}
 	}
 
 	return 0;

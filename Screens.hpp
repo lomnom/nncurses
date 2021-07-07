@@ -15,10 +15,35 @@ public:
 		raw(true);
 		updatesize();
 		fill();
+		pushup();
+		project();
+	}
+
+	~Terminal(){ //remove footpint
+		updatesize();
+		cout << Esc::homecurs;
+		string spacerow="";
+		for (int col=0;col<cols;col++){ //generate row of space
+			spacerow+=" ";
+		}
+		for (int row=0;row<rows;row++){ // clear terminal
+			cout << spacerow;
+			if (!(row==rows-1)){
+				cout << Esc::crnl;
+			}
+		}
+		cout << Esc::homecurs;
 	}
 
 	void updatesize(){
 		gettermsize(&cols,&rows);
+	}
+
+	void pushup(){
+		for (int row=1;row<rows;row++){ // "\n" rows-1 times
+			cout << '\n';
+		}
+		cout << Esc::homecurs;
 	}
 
 	void fill(){
@@ -41,6 +66,11 @@ public:
 			}
 			colI=0;
 		};
+	}
+
+	void projfill(){
+		project();
+		fill();
 	}
 };
 
