@@ -1,6 +1,8 @@
 #ifndef EscFunc
 #define EscFunc
 #include <iostream>
+#include <sys/ioctl.h>
+#include <unistd.h>
 using namespace std;
 
 #if defined(_WIN32)
@@ -11,18 +13,11 @@ using namespace std;
 #include <sys/ioctl.h>
 #endif // Windows/Linux
 
-void get_terminal_size(int& width, int& height) {
-#if defined(_WIN32)
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-    width = (int)(csbi.srWindow.Right-csbi.srWindow.Left+1);
-    height = (int)(csbi.srWindow.Bottom-csbi.srWindow.Top+1);
-#elif defined(__linux__)
+void gettermsize(int* width, int* height) {
     struct winsize w;
-    ioctl(fileno(stdout), TIOCGWINSZ, &w);
-    width = (int)(w.ws_col);
-    height = (int)(w.ws_row);
-#endif // Windows/Linux
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    *width=w.ws_col;
+    *height=w.ws_row;
 }
 
 streambuf *cinbuf=cin.rdbuf();

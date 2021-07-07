@@ -1,7 +1,16 @@
 #include "nncurses.hpp"
 #include <iostream>
+#include <time.h>
 
 using namespace std;
+
+int sleep(int sec,int msec,int mcrsec,int nsec){
+	struct timespec timeSec;
+	struct timespec timeNsec;
+	timeSec.tv_sec=sec;
+	timeNsec.tv_nsec=nsec+(((msec*1000)+mcrsec)*1000);
+	return nanosleep(&timeSec,&timeNsec);
+}
 
 int main(){
 	short red=1;
@@ -9,21 +18,19 @@ int main(){
 	short transp=-1;
 	short grn=2;
 
-	Col256 Ecolor(&grn,&red);
+	Col256 transpCol(&transp,&transp);
+	vector<string> transpEffectsV;
+	Effect transpEffects(&transpEffectsV);
+	Style transpStyle(&transpCol,&transpEffects);
+	string transpString=" ";
+	Texture transpTexture(&transpString,&transpStyle);
 
-	vector<string> EeffectsV;
-	EeffectsV.push_back("bld");
-	EeffectsV.push_back("ital");
-	EeffectsV.push_back("uline");
-	EeffectsV.push_back("blnk");
-	Effect Eeffects(&EeffectsV);
+	Terminal terminal(&transpTexture);
 
-	Style Estyle(&Ecolor,&Eeffects);
-
-	string Estring="E";
-	Texture Etexture(&Estring,&Estyle);
-
-	cout << Etexture.getesc() << Esc::crnl;
+	while (true){
+		terminal.project();
+		sleep(1,0,0,0);
+	}
 
 	return 0;
 }

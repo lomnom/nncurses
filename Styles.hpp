@@ -16,9 +16,13 @@ public:
 		string escape="";
 		if (*fg>=0){
 			escape=Esc::fgidcol(*fg);
+		}else{
+			escape=Esc::rstfg;
 		}
 		if (*bg>=0){
 			escape+=Esc::bgidcol(*bg);
+		}else{
+			escape+=Esc::rstbg;
 		}
 		return escape;
 	}

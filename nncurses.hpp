@@ -5,5 +5,6 @@
 #include "EscFunc.hpp"
 #include "Raw.hpp"
 #include "Styles.hpp"
+#include "Screens.hpp"
 
 #endif
