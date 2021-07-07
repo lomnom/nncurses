@@ -17,6 +17,7 @@ public:
 		fill();
 		pushup();
 		project();
+		cout << Esc::inviscurs;
 	}
 
 	~Terminal(){ //remove footpint
@@ -33,6 +34,8 @@ public:
 			}
 		}
 		cout << Esc::homecurs;
+		raw(false);
+		cout << Esc::viscurs;
 	}
 
 	void updatesize(){

@@ -25,8 +25,10 @@ std::string exec(const char* cmd) {
 void raw(bool state){ //i got tired of trying everything
     if (state){
         exec("stty raw");
+        exec("stty -echo");
     }else{
         exec("stty -raw");
+        exec("stty echo");
     }
 }
 
