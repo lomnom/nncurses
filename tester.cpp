@@ -28,16 +28,22 @@ namespace tex{ //textures
 	Col256 cyanCol(&cyan,&cyan);
 	Style cyanStyle(&cyanCol,&transpEffects);
 	Texture cyanTexture(&transpString,&cyanStyle);
+
+	int linelen=5;
+	HorizLine line(&transpTexture,0,5,&linelen);
 }
 
 int main(){
 	Terminal terminal(&tex::cyanTexture);
 
 	while (true){
+		tex::line.render(&terminal.screen);
 		terminal.project();
-		sleep(1,0,0,0);
+		sleep(0,0,16666,0);
 		if (cinchr()=='q'){
 			break;
+		}else{
+			tex::linelen++;
 		}
 	}
 
