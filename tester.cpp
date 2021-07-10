@@ -31,20 +31,50 @@ namespace tex{ //textures
 
 	int linelen=5;
 	HorizLine line(&transpTexture,0,5,&linelen);
+
+	TextLine mspf("",&transpStyle,0,0);
+	TextLine fpms("",&transpStyle,0,1);
+	TextLine frm("",&transpStyle,0,2);
 }
+
+#include <iostream>
+#include <chrono>
 
 int main(){
 	Terminal terminal(&tex::cyanTexture);
+	uint frame=0;
 
 	while (true){
-		tex::line.render(&terminal.screen);
+		frame++;
+		using std::chrono::high_resolution_clock;
+		using std::chrono::duration_cast;
+		using std::chrono::duration;
+		using std::chrono::milliseconds;
+
+		auto t1 = high_resolution_clock::now();
+
 		terminal.project();
-		sleep(0,0,16666,0);
+		terminal.updatesize();
+		terminal.screen.fill();
+
+		auto t2 = high_resolution_clock::now();
+		duration<double, std::milli> ms = t2 - t1;
+
 		if (cinchr()=='q'){
 			break;
-		}else{
-			tex::linelen++;
 		}
+
+		tex::mspf.text=to_string(ms.count())+"ms/p";
+		tex::mspf.render(&terminal.screen);
+
+		tex::fpms.text=to_string(1/ms.count())+"p/ms";
+		tex::fpms.render(&terminal.screen);
+
+		tex::frm.text="frame: "+to_string(frame);
+		tex::frm.render(&terminal.screen);
+
+		tex::linelen++;
+		tex::line.render(&terminal.screen);
 	}
 
 	return 0;

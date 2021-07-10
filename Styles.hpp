@@ -13,18 +13,23 @@ public:
 	Col256(short* fgid,short* bgid): fg(fgid),bg(bgid){}
 
 	string getesc(){
-		string escape="";
+		return getFgEsc()+getBgEsc();
+	}
+
+	string getFgEsc(){
 		if (*fg>=0){
-			escape=Esc::fgidcol(*fg);
+			return Esc::fgidcol(*fg);
 		}else{
-			escape=Esc::rstfg;
+			return Esc::rstfg;
 		}
+	}
+
+	string getBgEsc(){
 		if (*bg>=0){
-			escape+=Esc::bgidcol(*bg);
+			return Esc::bgidcol(*bg);
 		}else{
-			escape+=Esc::rstbg;
+			return Esc::rstbg;
 		}
-		return escape;
 	}
 
 	void layerontop(Col256 othcol){ //layer another color onto self
@@ -100,8 +105,13 @@ public:
 	string* character;
 	Style* style;
 	Texture(string* characte,Style* styl):style(styl),character(characte){};
+
 	string getesc(){
 		return style->getesc() + *character + Esc::rst;
+	}
+
+	string getStylEsc(){
+		return style->getesc();
 	}
 };
 

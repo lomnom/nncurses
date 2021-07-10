@@ -131,6 +131,7 @@ namespace Esc{
 	}
 
 	string freeze="\ec"; //???
+	string nothing=""; //ah yes
 }
 
 #endif
