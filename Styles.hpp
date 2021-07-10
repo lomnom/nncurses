@@ -42,40 +42,47 @@ public:
 	}
 };
 
+namespace EfctMasks{
+	uint8_t bld=	0b10000000;
+	uint8_t dim=	0b01000000;
+	uint8_t ital=	0b00100000;
+	uint8_t uline=	0b00010000;
+	uint8_t blnk=	0b00001000;
+	uint8_t inv=	0b00000100;
+	uint8_t hid=	0b00000010;
+	uint8_t strk=	0b00000001;
+}
+
 class Effect{
 public: 
-	vector<string>* effects;
-	string escape;
-
-	Effect(vector<string>* v):effects(v){};
+	uint8_t* effects;
+	Effect(uint8_t* effects):effects(effects){};
 
 	string getesc(){
-		escape="";
-		for (int i=0;!(i==(*effects).size());i++){
-			if ((*effects)[i]=="bld"){
-				escape+=Esc::bld;
-			}
-			if ((*effects)[i]=="dim"){
-				escape+=Esc::dim;
-			}
-			if ((*effects)[i]=="ital"){
-				escape+=Esc::ital;
-			}
-			if ((*effects)[i]=="uline"){
-				escape+=Esc::uline;
-			}
-			if ((*effects)[i]=="blnk"){
-				escape+=Esc::blnk;
-			}
-			if ((*effects)[i]=="inv"){
-				escape+=Esc::inv;
-			}
-			if ((*effects)[i]=="hid"){
-				escape+=Esc::hid;
-			}
-			if ((*effects)[i]=="strk"){
-				escape+=Esc::strk;
-			}
+		string escape="";
+		if ((*effects)&EfctMasks::bld){
+			escape+=Esc::bld;
+		}
+		if ((*effects)&EfctMasks::dim){
+			escape+=Esc::dim;
+		}
+		if ((*effects)&EfctMasks::ital){
+			escape+=Esc::ital;
+		}
+		if ((*effects)&EfctMasks::uline){
+			escape+=Esc::uline;
+		}
+		if ((*effects)&EfctMasks::blnk){
+			escape+=Esc::blnk;
+		}
+		if ((*effects)&EfctMasks::inv){
+			escape+=Esc::inv;
+		}
+		if ((*effects)&EfctMasks::hid){
+			escape+=Esc::hid;
+		}
+		if ((*effects)&EfctMasks::strk){
+			escape+=Esc::strk;
 		};
 		return escape;
 	}
