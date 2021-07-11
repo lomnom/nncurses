@@ -14,17 +14,14 @@ public:
 	Texture* fillerTexture;
 	int rows,cols;
 	int oldRows,oldCols;
-	int* startX;
-	int* startY;
 
-	Screen(int rows, int cols,Texture* filler,int* startX,int* startY):
+	Screen(int rows, int cols,Texture* filler):
 		rows(rows)
 		,cols(cols)
 		,oldRows(rows-1)
 		,oldCols(cols-1)
 		,fillerTexture(filler)
-		,startX(startX)
-		,startY(startY) {
+	{
 		fill();
 	}
 
@@ -48,21 +45,34 @@ public:
 		};
 	}
 
-	void render(Screen* scr){ //ah yes
-		for (int row=(*startY);(row<=(rows+(*startY))&&(!(row>=scr->rows)));row++){
-			for (int col=(*startX);((col<=(cols+(*startX)))&&(!(col>=scr->rows)));col++){
-				scr->screen[row][col]=screen[row-(*startY)][col-(*startX)];
+	void render(Screen* scr,int startX,int startY){ //ah yes
+		for (int row=0;row<rows;row++){
+			for (int col=0;col<cols;col++){
+				if ((row+startY>=scr->rows)||(col+startX>=scr->cols)){ //readability++, speed--
+					break;
+				}
+				scr->screen[row+startY][col+startX]=screen[row][col];
 			}
 		}
 	}
+
+	// void renderPart(Screen* scr,int startX,int startY,int partStartX,int partStartY,int sizeX,int sizeY){
+	// 	for (int row=0;row<rows;row++){
+	// 		for (int col=0;col<cols;col++){
+	// 			if ((row+startY>=scr->rows)||(col+startX>=scr->cols)){ //readability++, speed--
+	// 				break;
+	// 			}
+	// 			scr->screen[row+startY][col+startX]=screen[row][col];
+	// 		}
+	// 	}
+	// }
 };
 
 class Terminal{
 public:
-	int zero=0;
 	Screen screen;
 
-	Terminal(Texture* fillTexture):screen(1,1,fillTexture,&zero,&zero){
+	Terminal(Texture* fillTexture):screen(1,1,fillTexture){
 		raw(true);
 		updatesize();
 		screen.fill();

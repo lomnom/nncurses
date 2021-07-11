@@ -72,14 +72,15 @@ public:
 		}
 		chars.erase(chars.begin(),chars.end());
 
-		for (int n=0;n<text->length();n++){
-			if (((*startx)+n)>(screen->cols-1)){
-				break;
-			}
+		for (int n=0;(n<text->length())&&(!(((*startx)+n)>(screen->cols-1)));n++){
 			chars.push_back(new Texture(new string(1,text->at(n)),style));
 			screen->screen[(*starty)][(*startx)+n]=chars[n];
 		}
 	}
+};
+
+class Text: public Renderable{
+
 };
 
 #endif

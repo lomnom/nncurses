@@ -1,4 +1,4 @@
-#include "nncurses.hpp"
+#include "../nncurses.hpp"
 #include <iostream>
 #include <time.h>
 
