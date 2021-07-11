@@ -39,13 +39,15 @@ Line line(
 	new int(0),
 	new int(0),
 	new int(40),
-	new int(70)
+	new int(23)
 );
 
 int main(){
 	Terminal terminal(&background);
+	Screen screen(terminal.screen.rows,terminal.screen.cols,&background,new int(0),new int(0));
 
-	line.render(&terminal.screen);
+	line.render(&screen);
+	screen.render(&terminal.screen);
 
 	terminal.project();
 

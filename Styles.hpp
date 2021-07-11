@@ -86,6 +86,9 @@ public:
 		};
 		return escape;
 	}
+	void layerontop(Effect othEffect){
+		*effects|=(*(othEffect.effects));
+	}
 };
 
 class Style{

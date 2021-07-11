@@ -14,8 +14,17 @@ public:
 	Texture* fillerTexture;
 	int rows,cols;
 	int oldRows,oldCols;
+	int* startX;
+	int* startY;
 
-	Screen(int rows, int cols,Texture* filler):rows(rows),cols(cols),oldRows(rows-1),oldCols(cols-1),fillerTexture(filler) {
+	Screen(int rows, int cols,Texture* filler,int* startX,int* startY):
+		rows(rows)
+		,cols(cols)
+		,oldRows(rows-1)
+		,oldCols(cols-1)
+		,fillerTexture(filler)
+		,startX(startX)
+		,startY(startY) {
 		fill();
 	}
 
@@ -38,13 +47,22 @@ public:
 			filler.push_back(fillerRow);
 		};
 	}
+
+	void render(Screen* scr){ //ah yes
+		for (int row=(*startY);(row<=(rows+(*startY))&&(!(row>=scr->rows)));row++){
+			for (int col=(*startX);((col<=(cols+(*startX)))&&(!(col>=scr->rows)));col++){
+				scr->screen[row][col]=screen[row-(*startY)][col-(*startX)];
+			}
+		}
+	}
 };
 
 class Terminal{
 public:
+	int zero=0;
 	Screen screen;
 
-	Terminal(Texture* fillTexture):screen(1,1,fillTexture){
+	Terminal(Texture* fillTexture):screen(1,1,fillTexture,&zero,&zero){
 		raw(true);
 		updatesize();
 		screen.fill();
