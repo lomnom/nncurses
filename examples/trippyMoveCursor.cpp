@@ -1,4 +1,4 @@
-#include "nncurses.hpp"
+#include "../nncurses.hpp"
 #include <iostream>
 
 //g++ tester.cpp --std=c++17 -O3 -o tester && ./tester
