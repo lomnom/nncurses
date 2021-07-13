@@ -114,7 +114,7 @@ public:
 
 	void project(){ //currText=screen.screen[rowI][colI]
 		int colI=1;
-		string projString=Esc::rst+Esc::homecurs+screen.screen[0][0]->getStylEsc()+(*screen.screen[0][0]->character);
+		string projString=Esc::rst+Esc::homecurs+screen.screen[0][0]->stylEsc+(*screen.screen[0][0]->character);
 		Texture* prevText=screen.screen[0][0];
 
 		for (int rowI=0;rowI<screen.rows;rowI++){
@@ -123,15 +123,15 @@ public:
 					if (screen.screen[rowI][colI]->style->color!=prevText->style->color){
 						if (screen.screen[rowI][colI]->style->color->fg!=prevText->style->color->fg){
 							projString+=Esc::rstfg;
-							projString+=screen.screen[rowI][colI]->style->color->getFgEsc();
+							projString+=screen.screen[rowI][colI]->style->color->fgEsc;
 						}
 						if (screen.screen[rowI][colI]->style->color->bg!=prevText->style->color->bg){
 							projString+=Esc::rstbg;
-							projString+=screen.screen[rowI][colI]->style->color->getBgEsc();
+							projString+=screen.screen[rowI][colI]->style->color->bgEsc;
 						}
 					}
 				}else{
-					projString+=Esc::rst+screen.screen[rowI][colI]->getStylEsc();
+					projString+=Esc::rst+screen.screen[rowI][colI]->stylEsc;
 				}
 
 				projString+= *(screen.screen[rowI][colI]->character);

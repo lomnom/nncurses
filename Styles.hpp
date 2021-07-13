@@ -10,35 +10,28 @@ class Col256{ //less than 0 is transparent
 public:
 	short* fg;
 	short* bg;
-	Col256(short* fgid,short* bgid): fg(fgid),bg(bgid){}
-
-	string getesc(){
-		return getFgEsc()+getBgEsc();
+	string escape,fgEsc,bgEsc;
+	Col256(short* fgid,short* bgid): fg(fgid),bg(bgid){
+		getFgEsc();
+		getBgEsc();
+		getesc();
 	}
 
-	string getFgEsc(){
-		if (*fg>=0){
-			return Esc::fgidcol(*fg);
-		}else{
-			return Esc::rstfg;
-		}
+	void getesc(){
+		escape=fgEsc+bgEsc;
 	}
 
-	string getBgEsc(){
-		if (*bg>=0){
-			return Esc::bgidcol(*bg);
-		}else{
-			return Esc::rstbg;
-		}
+	void getFgEsc(){
+		fgEsc= *fg>=0 ? Esc::fgidcol(*fg) : "";
 	}
 
-	void layerontop(Col256 othcol){ //layer another color onto self
-		if (*(othcol.fg)>=0){
-			fg=othcol.fg;
-		}
-		if (*(othcol.bg)>=0){
-			bg=othcol.bg;
-		}
+	void getBgEsc(){
+		bgEsc= *bg>=0 ? Esc::bgidcol(*bg) : "";
+	}
+
+	Col256 operator+(Col256 othcol){ //layer another color onto self
+		Col256 resultCol(*(othcol.fg)>=0 ? othcol.fg : fg,*(othcol.bg)>=0 ? othcol.bg : bg);
+		return resultCol;
 	}
 };
 
@@ -56,10 +49,13 @@ namespace EfctMasks{
 class Effect{
 public: 
 	uint8_t* effects;
-	Effect(uint8_t* effects):effects(effects){};
+	string escape;
+	Effect(uint8_t* effects):effects(effects){
+		getesc();
+	};
 
-	string getesc(){
-		string escape="";
+	void getesc(){
+		escape="";
 		if ((*effects)&EfctMasks::bld){
 			escape+=Esc::bld;
 		}
@@ -84,10 +80,12 @@ public:
 		if ((*effects)&EfctMasks::strk){
 			escape+=Esc::strk;
 		};
-		return escape;
 	}
-	void layerontop(Effect othEffect){
-		*effects|=(*(othEffect.effects));
+	
+	Effect operator+(Effect othEffect){ //yay memleak
+		uint8_t resEffects=(*effects|*othEffect.effects);
+		Effect resEffect(&resEffects);
+		return resEffect;
 	}
 };
 
@@ -95,18 +93,13 @@ class Style{
 public:
 	Col256* color;
 	Effect* effect;
-	Style(Col256* col, Effect* e){
-		color=col;
-		effect=e;
+	string escape;
+	Style(Col256* col, Effect* e): color(col),effect(e){
+		getesc();
 	}
 
-	void layerontop(Style style){
-		color->layerontop(*(style.color));
-		effect=style.effect;
-	};
-
-	string getesc(){
-		return color->getesc()+effect->getesc();
+	void getesc(){
+		escape=color->escape+effect->escape;
 	}
 };
 
@@ -114,14 +107,18 @@ class Texture{
 public:
 	string* character;
 	Style* style;
-	Texture(string* characte,Style* styl):style(styl),character(characte){};
+	string escape,stylEsc;
+	Texture(string* characte,Style* styl):style(styl),character(characte){
+		getesc();
+		getStylEsc();
+	};
 
-	string getesc(){
-		return style->getesc() + *character + Esc::rst;
+	void getesc(){
+		escape=style->escape + *character + Esc::rst;
 	}
 
-	string getStylEsc(){
-		return style->getesc();
+	void getStylEsc(){
+		stylEsc=style->escape;
 	}
 };
 
