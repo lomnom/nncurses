@@ -1,16 +1,16 @@
 #include "../nncurses.hpp"
 #include <iostream>
 
-//g++ tester.cpp --std=c++17 -O3 -o tester && ./tester
+//g++ moveCursor.cpp --std=c++17 -O3 -o moveCursor && ./moveCursor
 
 using namespace std;
 
 Texture texture(
-	new string(" ")
+	new string("┃")
 	,new Style(
 		new Col256(
-			new short(4)
-			,new short(4)
+			new short(2)
+			,new short(3)
 		)
 		,new Effect(
 			new uint8_t(0)

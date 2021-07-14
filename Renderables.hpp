@@ -56,7 +56,7 @@ public:
 	}
 };
 
-class TextLine: public Renderable{
+class TextLine: public Renderable{ //h o w to o p t i m i s e
 public:
 	string* text;
 	int* startx;
@@ -79,7 +79,7 @@ public:
 	}
 };
 
-class Text: public Renderable{
+class Text: public Renderable{ //gotta do this lmao
 
 };
 
