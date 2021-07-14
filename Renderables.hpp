@@ -77,10 +77,14 @@ public:
 			screen->screen[(*starty)][(*startx)+n]=chars[n];
 		}
 	}
-};
 
-class Text: public Renderable{ //gotta do this lmao
-
+	~TextLine(){
+		for (int n=0;n<chars.size();n++){ //dealloc old chars
+			delete chars[n]->character;
+			delete chars[n];
+		}
+		chars.erase(chars.begin(),chars.end());
+	}
 };
 
 #endif
