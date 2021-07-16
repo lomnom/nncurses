@@ -19,14 +19,12 @@ namespace tex{ //textures
 	Style bgStyle(&bgCol,&bgEffect);
 	Texture bgTexture(&bgChar,&bgStyle);
 
-	Col256 textCol(&red,&cyan);
+	short textCol=red;
 	uint8_t textEffectInt=(EfctMasks::bld);
 	Effect textEffect(&textEffectInt);
-	Style textStyle(&textCol,&textEffect);
 
 	uint8_t foldCounterEffectInt=(EfctMasks::bld|EfctMasks::ital);
 	Effect foldCounterEffect(&foldCounterEffectInt);
-	Style foldCounterStyle(&textCol,&foldCounterEffect);
 
 	Col256 lineCol(&red,&red);
 	Effect lineEffect(new uint8_t(0));
@@ -37,11 +35,11 @@ namespace tex{ //textures
 	string defaultTextStr="";
 	int textStartX=0;
 
-	TextLine msPproj(new string(defaultTextStr),&textStyle,&textStartX,new int(0));
-	TextLine projPms(new string(defaultTextStr),&textStyle,&textStartX,new int(1));
-	TextLine frame(new string(defaultTextStr),&textStyle,&textStartX,new int(2));
+	TextLine msPproj(new string(defaultTextStr),&textCol,&textEffect,&textStartX,new int(0));
+	TextLine projPms(new string(defaultTextStr),&textCol,&textEffect,&textStartX,new int(1));
+	TextLine frame(new string(defaultTextStr),&textCol,&textEffect,&textStartX,new int(2));
 
-	TextLine foldCounter(&defaultTextStr,&foldCounterStyle,&textStartX,new int(6));
+	TextLine foldCounter(new string(defaultTextStr),&textCol,&foldCounterEffect,&textStartX,new int(6));
 
 	int lineLen=0;
 	Line spamLine(&lineTexture,new int(0),new int(5),&lineLen,new int(5));

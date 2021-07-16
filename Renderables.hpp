@@ -56,34 +56,60 @@ public:
 	}
 };
 
-class TextLine: public Renderable{ //h o w to o p t i m i s e
+class HollowRectangle: public Renderable{
+	Texture* top;
+	Texture* bottom;
+	Texture* left;
+	Texture* right;
+	Texture* TLCorner;
+	Texture* TRCorner;
+	Texture* BLCorner;
+	Texture* BRCorner;
+	int* startx;
+	int* starty;
+	int* height;
+	int* width;
+};
+
+class TextLine: public Renderable{ //MEMLEAKKKKKK
 public:
 	string* text;
 	int* startx;
 	int* starty;
-	Style* style;
+	short* color;
 	vector<Texture*> chars;
-	TextLine(string* text,Style* style,int* startx,int* starty): startx(startx),starty(starty),text(text),style(style){}
+	Effect* effects;
+	TextLine(string* text,short* color,Effect* effects,int* startx,int* starty): startx(startx),starty(starty),text(text),color(color),effects(effects){}
 
-	void render(Screen* screen){
-		for (int n=0;n<chars.size();n++){ //dealloc old chars
-			delete chars[n]->character;
-			delete chars[n];
-		}
-		chars.erase(chars.begin(),chars.end());
+	void render(Screen* screen){ //preserves bg col!!!!!!
+		deallocChars();
 
 		for (int n=0;(n<text->length())&&(!(((*startx)+n)>(screen->cols-1)));n++){
-			chars.push_back(new Texture(new string(1,text->at(n)),style));
+			chars.push_back(
+				new Texture(
+					new string(1,text->at(n))
+					,new Style(
+						new Col256(color,screen->screen[(*starty)][(*startx)+n]->style->color->bg),
+						effects
+					)
+				)
+			);
 			screen->screen[(*starty)][(*startx)+n]=chars[n];
 		}
 	}
 
-	~TextLine(){
+	void deallocChars(){
 		for (int n=0;n<chars.size();n++){ //dealloc old chars
 			delete chars[n]->character;
+			delete chars[n]->style->color;
+			delete chars[n]->style;
 			delete chars[n];
 		}
 		chars.erase(chars.begin(),chars.end());
+	}
+
+	~TextLine(){
+		deallocChars();
 	}
 };
 
