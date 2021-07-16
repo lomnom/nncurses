@@ -7,5 +7,6 @@
 #include "Styles.hpp"
 #include "Screens.hpp"
 #include "Renderables.hpp"
+#include "Asciichrs.hpp"
 
 #endif

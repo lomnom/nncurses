@@ -71,7 +71,7 @@ class HollowRectangle: public Renderable{
 	int* width;
 };
 
-class TextLine: public Renderable{ //MEMLEAKKKKKK
+class TextLine: public Renderable{ //MEMLEAKKKKKK (gone)
 public:
 	string* text;
 	int* startx;
