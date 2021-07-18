@@ -4,17 +4,17 @@
 
 //g++ spamGame.cpp --std=c++17 -O3 -o spamgame && ./spamgame
 
-#define Col256 nc::Col256
-#define Effect nc::Effect
-#define string std::string
-#define to_string std::to_string
-#define Style nc::Style
-#define Texture nc::Texture
+using nc::Col256;
+using nc::Effect;
+using std::string;
+using std::to_string;
+using nc::Style;
+using nc::Texture;
 #define EfctMasks nc::EfctMasks
-#define TextLine nc::TextLine
-#define Line nc::Line
-#define cinchr nc::cinchr
-#define Terminal nc::Terminal
+using nc::TextLine;
+using nc::Line;
+using nc::cinchr;
+using nc::Terminal;
 
 namespace tex{ //textures
 	short red=1;

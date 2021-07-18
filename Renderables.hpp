@@ -61,6 +61,7 @@ namespace nc{
 	};
 
 	class HollowRectangle: public Renderable{
+	public:
 		Texture* top;
 		Texture* bottom;
 		Texture* left;
@@ -73,6 +74,78 @@ namespace nc{
 		int* starty;
 		int* height;
 		int* width;
+		HollowRectangle(int* startx,int* starty,int* height,int* width,Texture* texture):
+			top(texture),
+			bottom(texture),
+			left(texture),
+			right(texture),
+			TLCorner(texture),
+			TRCorner(texture),
+			BLCorner(texture),
+			BRCorner(texture),
+			startx(startx),
+			starty(starty),
+			height(height),
+			width(width){}
+
+		HollowRectangle(int* startx,int* starty,int* height,int* width,Texture* texture,Texture* cornerTexture):
+			top(texture),
+			bottom(texture),
+			left(texture),
+			right(texture),
+			TLCorner(cornerTexture),
+			TRCorner(cornerTexture),
+			BLCorner(cornerTexture),
+			BRCorner(cornerTexture),
+			startx(startx),
+			starty(starty),
+			height(height),
+			width(width){}
+
+		HollowRectangle(int* startx,int* starty,int* height,int* width,Texture* horizTexture,Texture* vertTexture,Texture* cornerTexture):
+			top(horizTexture),
+			bottom(horizTexture),
+			left(vertTexture),
+			right(vertTexture),
+			TLCorner(cornerTexture),
+			TRCorner(cornerTexture),
+			BLCorner(cornerTexture),
+			BRCorner(cornerTexture),
+			startx(startx),
+			starty(starty),
+			height(height),
+			width(width){}
+
+		HollowRectangle(int* startx,int* starty,int* height,int* width,Texture* horizTexture,Texture* vertTexture,Texture* TLCorner,Texture* TRCorner,Texture* BLCorner,Texture* BRCorner):
+			top(horizTexture),
+			bottom(horizTexture),
+			left(vertTexture),
+			right(vertTexture),
+			TLCorner(TLCorner),
+			TRCorner(TRCorner),
+			BLCorner(BLCorner),
+			BRCorner(BRCorner),
+			startx(startx),
+			starty(starty),
+			height(height),
+			width(width){}
+
+		void render(Screen* screen){
+			int endx= *startx+ *width-1;
+			int endy= *starty+ *height-1;
+			for (int x= *startx;x<=endx;x++){
+				screen->screen[ *starty][x]=top;
+				screen->screen[endy][x]=bottom;
+			}
+			for (int y= *starty;y<=endy;y++){
+				screen->screen[y][ *startx]=left;
+				screen->screen[y][endx]=right;
+			}
+			screen->screen[ *starty][ *startx]=TLCorner;
+			screen->screen[endy][endx]=BRCorner;
+			screen->screen[ *starty][endx]=TRCorner;
+			screen->screen[endy][ *startx]=BLCorner;
+		}
 	};
 
 	class TextLine: public Renderable{ //MEMLEAKKKKKK (gone)
