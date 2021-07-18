@@ -26,15 +26,9 @@ namespace nc{
 		for (int x=smallerX;x<biggerX;x++){
 			if (D>0){
 				y++;
-				if ((x>=screen->cols)||(y>=screen->rows)){
-					break;
-				}
 				screen->screen[y][x]=texture;
 				D += (2*diffY-2*diffX);
 			}else{
-				if ((x>=screen->cols)||(y>=screen->rows)){
-					break;
-				}
 				screen->screen[y][x]=texture;
 				D += 2*diffY;
 			}
@@ -161,7 +155,7 @@ namespace nc{
 		void render(Screen* screen){ //preserves bg col!!!!!!
 			deallocChars();
 
-			for (int n=0;(n<text->length())&&(!(((*startx)+n)>(screen->cols-1)));n++){
+			for (int n=0;n<text->length();n++){
 				chars.push_back(
 					new Texture(
 						new string(1,text->at(n))
