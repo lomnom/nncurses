@@ -4,7 +4,17 @@
 
 //g++ spamGame.cpp --std=c++17 -O3 -o spamgame && ./spamgame
 
-using namespace std;
+#define Col256 nc::Col256
+#define Effect nc::Effect
+#define string std::string
+#define to_string std::to_string
+#define Style nc::Style
+#define Texture nc::Texture
+#define EfctMasks nc::EfctMasks
+#define TextLine nc::TextLine
+#define Line nc::Line
+#define cinchr nc::cinchr
+#define Terminal nc::Terminal
 
 namespace tex{ //textures
 	short red=1;
