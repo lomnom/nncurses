@@ -3,14 +3,10 @@
 
 //g++ moveCursor.cpp --std=c++17 -O3 -o moveCursor && ./moveCursor
 
-using namespace nc;
-
-using namespace nc;
-#define string std::string
-#define stoi std::stoi
-#define to_string std::to_string
-#define cout std::cout
-#define Esc nc::Esc
+using std::string,std::stoi,std::to_string,std::cout;
+using nc::toroid,nc::Effect,nc::Texture,nc::Col256,nc::Style,nc::midOfst,nc::HollowRectangle,nc::TextLine,nc::Terminal,nc::cinchr;
+namespace AscBox=nc::AscBox;
+namespace Esc=nc::Esc;
 
 short* black=new short(256);
 short* white=new short(252);
@@ -49,22 +45,31 @@ TextLine debText(&debTxtStr,white,effects,&debTxtX,&debTxtY);
 Terminal terminal(&background);
 
 void teleportHandle(int* x,int* y){
-	winStartX=(terminal.screen.cols/2)-(winWidth/2);
-	winStartY=(terminal.screen.rows/2)-(winHeight/2);
+	winStartX=midOfst(terminal.screen.cols,winWidth);
+	winStartY=midOfst(terminal.screen.rows,winHeight);
 	txtY=winStartY+1;
-	txtX=(terminal.screen.cols/2)-16+1;
-	terminal.screen.fill();
-	tpText.render(&terminal.screen);
-	tpWin.render(&terminal.screen);
-	terminal.project();
+	txtX=midOfst(terminal.screen.cols,(int)tpTxtStr.size());
 
-	char inChar;
 	string inX="";
 	string inY=inX;
 	uint8_t phase=0;
 
 	while (true){
-		inChar=cinchr();
+		if (phase){
+			inTxtStr="x: "+inX+" y: "+inY;
+		}else{
+			inTxtStr="x: "+inX;
+		}
+
+		inTxtY=winStartY+2;
+		inTxtX=midOfst(terminal.screen.cols,(int)inTxtStr.size());
+		terminal.screen.fill();
+		inText.render(&terminal.screen);
+		tpText.render(&terminal.screen);
+		tpWin.render(&terminal.screen);
+		terminal.project();
+
+		char inChar=cinchr();
 		if (std::isdigit(inChar)){
 			if (phase){
 				inY+=inChar;
@@ -73,31 +78,45 @@ void teleportHandle(int* x,int* y){
 			}
 		}else{
 			if (phase){
-				break;
+				if (!(inY.size()==0)){
+					break;
+				}
 			}else{
-				phase++;
+				if (!(inX.size()==0)){
+					phase++;
+				}
 			}
 		}
-
-		if (phase){
-			inTxtStr="x: "+inX+" y: "+inY;
-		}else{
-			inTxtStr="x: "+inX;
-		}
-
-		inTxtY=winStartY+2;
-		inTxtX=(terminal.screen.cols/2)-(inTxtStr.size()/2)+1;
-		terminal.screen.fill();
-		inText.render(&terminal.screen);
-		tpText.render(&terminal.screen);
-		tpWin.render(&terminal.screen);
-		terminal.project();
 	}
 
 	terminal.screen.fill();
 
 	*y=stoi(inY)%terminal.screen.rows;
 	*x=stoi(inX)%terminal.screen.cols;
+}
+
+string helpTxtStr="w,a,s,d: movement, Q: quit, T: toggle trippy, M: teleport, D: show coords";
+int helpTxtX=0;
+int helpTxtY=0;
+TextLine helpText(&helpTxtStr,white,effects,&helpTxtX,&helpTxtY);
+
+int helpWinStartX=0;
+int helpWinStartY=0;
+int helpWinHeight=3;
+int helpWinWidth=75;
+HollowRectangle helpWin(&helpWinStartX,&helpWinStartY,&helpWinHeight,&helpWinWidth,&horizLine,&vertLine,&corner);
+
+void help(){
+	helpWinStartX=midOfst(terminal.screen.cols,helpWinWidth);
+	helpWinStartY=midOfst(terminal.screen.rows,helpWinHeight);
+	helpTxtX=helpWinStartX+1;
+	helpTxtY=helpWinStartY+1;
+	terminal.screen.fill();
+	helpText.render(&terminal.screen);
+	helpWin.render(&terminal.screen);
+	terminal.project();
+	cinchr();
+	terminal.screen.fill();
 }
 
 int main(){
@@ -107,7 +126,7 @@ int main(){
 	bool debug=false;
 	
 	while (!(ended)){
-		terminal.screen.screen[y][x]=&texture;
+		terminal.screen.screen[toroid(y,terminal.screen.rows)][toroid(x,terminal.screen.cols)]=&texture;
 		if (trippy){
 			terminal.screen.renderPart(&terminal.screen,2,2,0,0,5,5);
 			terminal.screen.render(&terminal.screen,5,5);
@@ -122,19 +141,19 @@ int main(){
 
 		switch (cinchr()){
 			case 'w':
-				y= 0<y ? y-1 : terminal.screen.rows-1;
+				y--;
 				texture.character=&AscBox::lines[0b11010000];
 				break;
 			case 's':
-				y=(y+1)%terminal.screen.rows;
+				y++;
 				texture.character=&AscBox::lines[0b01110000];
 				break;
 			case 'd':
-				x=(x+1)%terminal.screen.cols;
+				x++;
 				texture.character=&AscBox::lines[0b00000111];
 				break;
 			case 'a':
-				x= 0<x ? x-1 : terminal.screen.cols-1;
+				x--;
 				texture.character=&AscBox::lines[0b00001101];
 				break;
 			case 'Q':
@@ -149,13 +168,11 @@ int main(){
 			case 'D':
 				debug= !(debug);
 				break;
+			case 'H':
+				help();
 			default:
 				cout << Esc::bell;
 		}
 	}
 	return 0;
 }
-
-#undef Esc
-#undef string 
-#undef cout

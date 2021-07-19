@@ -9,6 +9,33 @@
 #define vector std::vector
 
 namespace nc{
+	template<class T>
+	T abs(T x){
+		return (x>0 ? x : -x);
+	}
+
+	template<class T>
+	T smaller(T a,T b){
+		return a>b ? b : a;
+	}
+
+	template<class T>
+	T btwn(T a,T b){ //get between of 2 vals
+		return smaller(a,b)+(abs(a-b)/2);
+	}
+
+	template<class T>
+	T midOfst(T a,T b){ //get middle val with an offset of 2nd arg/2
+		return (a/2)-(b/2);
+	}
+
+	template<class T>
+	T toroid(T a, T b) {
+		if(b < 0) return toroid(-a, -b);
+		int result = a % b;
+		return result >= 0 ? result : result + b;
+	}
+
 	void bresenham(Screen* screen,Texture* texture,int startX,int startY,int endX,int endY){
 		int biggerX=startX>endX ? startX : endX;
 		int smallerX=startX<endX ? startX : endX;
