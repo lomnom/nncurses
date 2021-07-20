@@ -1,0 +1,4 @@
+- ***class*** `RawController()`:
+  - ***int()*** `raw()`: turn on raw mode. returns -1 on failure
+  - ***int()*** `unraw()`: turn off raw mode. returns -1 on failure
+  - ***struct termios*** `unrawterm`: The terminal at the state of object initialisation

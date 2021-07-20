@@ -6,3 +6,4 @@ Everything is in namespace `nc`
   - [Asciichrs.hpp](Asciichrs.md)  
   - [Escapes](Escapes.md)
   - [EscFunc](EscFunc.md)
+  - [Raw](Raw.md)
