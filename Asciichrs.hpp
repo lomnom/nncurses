@@ -9,10 +9,6 @@
 
 namespace nc{
 	namespace AscBlok{
-		uint8_t tpL  	=0b1000;
-		uint8_t tpR  	=0b0100;
-		uint8_t btmL 	=0b0010;
-		uint8_t btmR 	=0b0001;
 		map<uint8_t,string> block={ //they dont have to be in a map but more readable
 			{0b0010,"▖",},
 			{0b0001,"▗",},
