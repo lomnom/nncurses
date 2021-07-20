@@ -2,31 +2,31 @@
   These are Escape codes or return escape codes.  
   Escape codes are printed to have effect.  
   Support varies between terminals.
-  - ***string*** `bell`: Rings the terminal bell
-  - ***string*** `bksp`: deletes the character to the left (if there is one)
+  - ***string*** `bell`: produces a ring sound
+  - ***string*** `bksp`: backspace (delete character to the left and shift rest of line left) 
   - ***string*** `vtab`: `newline`, but it doesnt move your cursor to the start of the next line even in cooked mode.
   - ***string*** `tab`: moves your cursor x position to `((cursX/8)+1)*8`
   - ***string*** `nl`: moves to the start of the next line (in raw mode it will not move to the start) 
   - ***string*** `cr`: moves cursor to the start of the line
   - ***string*** `nlcr`, `crnl`: moves your cursor to the start of the next line, even in raw mode.
   - ***string*** `esc`: the character that preceeds most escape codes
-  - ***string*** `savescr`: save current state of the terminal, minus cursor pos and attrs
-  - ***string*** `loadscr`: load state of terminal
-  - ***string*** `savecurs`: save the cursor position
-  - ***string*** `loadcurs`: load the cursor position
-  - ***string*** `savecursattr`: save the cursor position and atributes. will not work with loadcurs
-  - ***string*** `loadcursattr`: load the cursor position and atributes. will not work with savecurs
-  - ***string*** `inviscurs`: make cursor invisible
-  - ***string*** `viscurs`: make cursor visible
-  - ***string*** `homecurs`: move cursor to (0,0)
+  - ***string*** `savescr`: saves state of the terminal except cursor pos and attrs
+  - ***string*** `loadscr`: loads state of terminal
+  - ***string*** `savecurs`: saves the cursor position
+  - ***string*** `loadcurs`: loads the cursor position
+  - ***string*** `savecursattr`: saves the cursor position and atributes. will not work with loadcurs
+  - ***string*** `loadcursattr`: loads the cursor position and atributes. will not work with savecurs
+  - ***string*** `inviscurs`: makes the cursor invisible
+  - ***string*** `viscurs`: undoes `inviscurs`
+  - ***string*** `homecurs`: set cursor to (0,0)
   - ***string()*** `movcurs(int row,int col)`: returns escape to move cursor
-  - ***string()*** `upcurs(int n)`: returns escape that moves cursor up n lines
-  - ***string*** `downcurs(int n)`: returns escape that moves cursor down n lines
-  - ***string*** `leftcurs(int n)`: returns escape that moves cursor left n lines
-  - ***string*** `rightcurs(int n)`: returns escape that moves cursor right n lines
-  - ***string*** `upstrtcurs(int n)`: move up n lines and go to column 0
-  - ***string*** `downstrtcurs(int n)`: move down n lines and go to column 0
-  - ***string*** `colcurs(int n)`: move cursor to column n
+  - ***string()*** `upcurs(int n)`: returns escape that moves cursor up `n` lines
+  - ***string*** `downcurs(int n)`: returns escape that moves cursor down `n` lines
+  - ***string*** `leftcurs(int n)`: returns escape that moves cursor left `n` lines
+  - ***string*** `rightcurs(int n)`: returns escape that moves cursor right `n` lines
+  - ***string*** `upstrtcurs(int n)`: move up `n` lines and go to column 0
+  - ***string*** `downstrtcurs(int n)`: move down `n` lines and go to column 0
+  - ***string*** `colcurs(int n)`: move cursor to column `n`
   - ***string*** `clrscr`: clears the terminal. Also clears scrollback on iterm2.
   - ***string*** `clrscroll`: clears the scrollback
   - ***string*** `clrlnhm`: clears current line and goes to the start of the line.
@@ -74,5 +74,5 @@
   - ***string()*** `bgidcol(uint8_t id)`: returns a escape that [changes the background color to id](https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg).
   - ***string()*** `wintitle(string title)`: changes the title of the terminal window in *some* terminals.
   - ***string*** `notif(string message)`: sends a notification in *very few* terminals
-  - ***string*** `freeze`: im not sure what it does, but it freezez my terminal.
-  - ***string*** `nothing`: nothing
+  - ***string*** `freeze`: im not sure what it does, but it freezes my terminal.
+  - ***string*** `nothing`: literally nothing
