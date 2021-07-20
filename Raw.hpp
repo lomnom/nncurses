@@ -1,36 +1,28 @@
 #ifndef Raw
 #define Raw
 
-#include <cstdio>
-#include <iostream>
-#include <memory>
-#include <stdexcept>
-#include <string>
-#include <array>
+#include <termios.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 namespace nc{
-    std::string exec(const char* cmd) {
-        std::array<char, 128> buffer;
-        std::string result;
-        std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
-        if (!pipe) {
-            return "!@#$%^(&)*_+@FAILED@%#^$&%*^&()*&"; //string that no program will return hopefully
-        }
-        while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-            result += buffer.data();
-        }
-        return result;
-    }
-
-    void raw(bool state){ //i got tired of trying everything
-        if (state){
-            exec("stty raw");
-            exec("stty -echo");
-        }else{
-            exec("stty -raw");
-            exec("stty echo");
-        }
-    }
+	class RawController{
+	public:
+		struct termios unrawterm;
+		RawController(){
+			tcgetattr(fileno(stdin), &unrawterm);
+		}
+		int unraw() {
+			return tcsetattr(fileno(stdin), TCSAFLUSH, &unrawterm);
+		}
+		int raw() {
+			struct termios rawterm = unrawterm;
+			rawterm.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+			rawterm.c_oflag &= ~(OPOST);
+			rawterm.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+			return tcsetattr(fileno(stdin), TCSAFLUSH, &rawterm);
+		}
+	};
 }
 
 #endif

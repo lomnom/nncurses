@@ -8,5 +8,6 @@
 #include "Screens.hpp"
 #include "Renderables.hpp"
 #include "Asciichrs.hpp"
+#include "Utils.hpp"
 
 #endif

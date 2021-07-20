@@ -4,17 +4,9 @@
 
 //g++ spamGame.cpp --std=c++17 -O3 -o spamgame && ./spamgame
 
-using nc::Col256;
-using nc::Effect;
-using std::string;
-using std::to_string;
-using nc::Style;
-using nc::Texture;
+using nc::TextLine,nc::Line,nc::cinchr,nc::Terminal,nc::Col256,nc::Effect,nc::Style,nc::Texture,nc::TimeTracker;
+using std::string,std::to_string;
 #define EfctMasks nc::EfctMasks
-using nc::TextLine;
-using nc::Line;
-using nc::cinchr;
-using nc::Terminal;
 
 namespace tex{ //textures
 	short red=1;
@@ -58,20 +50,16 @@ namespace tex{ //textures
 #include <iostream>
 #include <chrono>
 
-using std::chrono::high_resolution_clock;
-using std::chrono::duration_cast;
-using std::chrono::duration;
-using std::chrono::milliseconds;
+using std::chrono::high_resolution_clock,std::chrono::duration_cast,std::chrono::duration,std::chrono::milliseconds;
 
 int main(){
 	Terminal terminal(&tex::bgTexture);
 	uint frame=1;
-	auto t1 = high_resolution_clock::now();
-	auto t2 = high_resolution_clock::now();
-	duration<double, std::milli> frameTime=t1-t2;
+	double frameTime=0;
+	TimeTracker tracker;
 
 	while (true){
-		auto t1 = high_resolution_clock::now();
+		tracker.start();
 
 		terminal.project();
 		terminal.updatesize();
@@ -81,8 +69,8 @@ int main(){
 			tex::lineLen=frame%(terminal.screen.cols+1);
 			tex::spamLine.render(&terminal.screen);
 
-			*(tex::msPproj.text)="msPproj: "+to_string(frameTime.count());
-			*(tex::projPms.text)="projPms: "+to_string(1/frameTime.count());
+			*(tex::msPproj.text)="msPproj: "+to_string(frameTime);
+			*(tex::projPms.text)="projPms: "+to_string(1/frameTime);
 			*(tex::frame.text)="frame: "+to_string(frame);
 			*(tex::foldCounter.text)="("+to_string(frame/(terminal.screen.cols+1))+")";
 
@@ -92,8 +80,8 @@ int main(){
 			tex::foldCounter.render(&terminal.screen);
 		}
 
-		auto t2 = high_resolution_clock::now();
-		frameTime = t2 - t1;
+		tracker.end();
+		frameTime = tracker.time();
 
 		if (cinchr()=='q'){
 			break;

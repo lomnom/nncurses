@@ -95,7 +95,7 @@ void teleportHandle(int* x,int* y){
 	*x=stoi(inX)%terminal.screen.cols;
 }
 
-string helpTxtStr="w,a,s,d: movement, Q: quit, T: toggle trippy, M: teleport, D: show coords";
+string helpTxtStr="w,a,s,d: movement, q: quit, t: toggle trippy, m: teleport, c: show coords";
 int helpTxtX=0;
 int helpTxtY=0;
 TextLine helpText(&helpTxtStr,white,effects,&helpTxtX,&helpTxtY);
@@ -156,19 +156,19 @@ int main(){
 				x--;
 				texture.character=&AscBox::lines[0b00001101];
 				break;
-			case 'Q':
+			case 'q':
 				ended=true;
 				break;
-			case 'T':
+			case 't':
 				trippy= !(trippy);
 				break;
-			case 'M':
+			case 'm':
 				teleportHandle(&x,&y);
 				break;
-			case 'D':
+			case 'c':
 				debug= !(debug);
 				break;
-			case 'H':
+			case 'h':
 				help();
 			default:
 				cout << Esc::bell;
