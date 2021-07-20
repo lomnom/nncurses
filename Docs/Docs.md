@@ -5,3 +5,4 @@ Everything is in namespace `nc`
 - Files:
   - [Asciichrs.hpp](Asciichrs.md)  
   - [Escapes](Escapes.md)
+  - [EscFunc](EscFunc.md)
