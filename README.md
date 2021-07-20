@@ -1,7 +1,6 @@
 # nncurses docs!
 - ***namespace*** `nc`:
   This namespace contains everything in nncurses
-  <details>
   - ***namespace*** `Esc`:
     These are Escape codes or return escape codes.  
     Escape codes are printed to have effect.  
@@ -80,4 +79,3 @@
     - ***string*** `notif(string message)`: sends a notification in *very few* terminals
     - ***string*** `freeze`: im not sure what it does, but it freezez my terminal.
     - ***string*** `nothing`: nothing
-  </details>
