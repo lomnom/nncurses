@@ -62,12 +62,10 @@ namespace nc{
 			return "\e["+to_string(n-1)+"G";
 		}
 
-		string clrscrscroll="\e[H\e[J"; //yes, i know its \e[J, but it doesnt work for some reason, probably bc curs needs to be home first
-		string clrscrollstr=clrscrscroll; //alias
-		string pushup="\e[H\e[2J"; //puch all previous output into top of terminal
+		string clrscr="\e[H\e[J"; //yes, i know its \e[J, but it doesnt work for some reason, probably bc curs needs to be home first. it also clears scrollback on iterm2
 		string clrscroll="\e[3J"; //clear scrollback
-		string clrln="\e[0G\e[K"; //clear currnet line, not replacing with spaces
-		string clrlnsp="\e[2K"; //this one replaces with spaces, and keeps cursor pos
+		string clrlnhm="\e[0G\e[K"; //clear currnet line and go to column 0
+		string clrln="\e[2K"; //clr ln and not go to column 0
 		string clrtoeos="\e[0J"; //clear from cursor to end of screen
 		string clrtosos="\e[1J"; //clear from cursor to start of screen
 		string clrtoeol="\e[0K"; //clear from cursor to end of line
