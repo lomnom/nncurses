@@ -48,6 +48,7 @@ namespace nc{
 		uint8_t inv=	0b00000100;
 		uint8_t hid=	0b00000010;
 		uint8_t strk=	0b00000001;
+		uint8_t none=	0b00000000;
 	}
 
 	class Effect{
