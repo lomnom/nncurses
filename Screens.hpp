@@ -53,9 +53,6 @@ namespace nc{
 		void render(Screen* scr,int startX,int startY){ //ah yes
 			for (int row=0;row<rows;row++){
 				for (int col=0;col<cols;col++){
-					if ((row+startY>=scr->rows)||(col+startX>=scr->cols)){ //readability++, speed--
-						break;
-					}
 					scr->screen[row+startY][col+startX]=screen[row][col];
 				}
 			}
@@ -64,9 +61,6 @@ namespace nc{
 		void renderPart(Screen* scr,int startX,int startY,int partStartX,int partStartY,int sizeX,int sizeY){ //lmao
 			for (int row=0;row<sizeY;row++){
 				for (int col=0;col<sizeX;col++){
-					if (((row+startY>=scr->rows)||(col+startX>=scr->cols))||((partStartY+row>=rows)||(partStartX+col>=cols))){ //yet again
-						break;
-					}
 					scr->screen[row+startY][col+startX]=screen[partStartY+row][partStartX+col];
 				}
 			}
