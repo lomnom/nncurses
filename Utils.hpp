@@ -41,7 +41,7 @@ namespace nc{
 			if (ended){
 				return timeTime.count();
 			}else{
-				return 0;
+				return -1;
 			}
 		}
 	};
