@@ -1,0 +1,10 @@
+- ***void()*** `sleep(int sec=1,int msec=0,int mcrsec=0,int nsec=0)`: sleep for a certain amount of time. throws -1 on failure
+- ***class TimeTracker***: basically a stopwatch, with start and stop only
+  - ***std::chrono::steady_clock::time_point*** `startTime`: time start() was called
+  - ***std::chrono::steady_clock::time_point*** `endTime`: time end() was called
+  - ***duration\<double, std::milli\>*** `timeTime`: time between start and end, calculated when end() is called
+  - ***bool*** `ended`: if ended yet
+  - ***void()*** `start()`: sets startTime and makes ended false
+  - ***void()*** `end()`: sets endTime and makes ended true
+  - ***double()*** `time()`: returns the time between startTime and endTime as double if ended is true. returns -1 otherwise.
+  - [example](../examples/spamgame)
