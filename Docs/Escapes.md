@@ -4,7 +4,26 @@
   Support varies between terminals.
   - ***string*** `bell`: produces a ring sound
   - ***string*** `bksp`: backspace (delete character to the left and shift rest of line left) 
+    ```cpp
+    #include "Escapes.hpp"
+    #include <iostream>
+    int main(){
+      std::cout << "lmao" << nc::Esc::bksp << nc::Esc::bksp << "fao"; //shows as lmfao
+    }
+    ```
   - ***string*** `vtab`: `newline`, but it doesnt move your cursor to the start of the next line even in cooked mode.
+    ```cpp
+    #include "Escapes.hpp"
+    #include <iostream>
+    int main(){
+      std::cout << "lmao" << nc::Esc::vtab << "haha"; 
+      /*
+      shows as
+      lmao
+          haha
+      */
+    }
+    ```
   - ***string*** `tab`: moves your cursor x position to `((cursX/8)+1)*8`
   - ***string*** `nl`: moves to the start of the next line (in raw mode it will not move to the start) 
   - ***string*** `cr`: moves cursor to the start of the line

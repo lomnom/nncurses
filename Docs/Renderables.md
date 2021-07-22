@@ -11,6 +11,7 @@
   - ***int\**** `starty`
   - ***int\**** `endx`
   - ***int\**** `endy`
+  - [example](../examples/spamGame.cpp)
 - ***class*** `HollowRectangle(int* startx,int* starty,int* height,int* width,Texture* texture)`  
   ***class*** `HollowRectangle(int* startx,int* starty,int* height,int* width,Texture* texture,Texture* cornerTexture)`  
   ***class*** `HollowRectangle(int* startx,int* starty,int* height,int* width,Texture* horizTexture,Texture* vertTexture,Texture* cornerTexture)`  
@@ -28,6 +29,7 @@
   - ***int\**** `starty`
   - ***int\**** `height`
   - ***int\**** `width`
+  - [example](../examples/moveCursor.cpp)
 - ***class*** `TextLine(string* text,short* color,Effect* effects,int* startx,int* starty)`: Text renderable  
   after rendering, it will dealloc it's old textures!
   - ***void()*** `render(Screen* screen)`: render text
@@ -37,3 +39,4 @@
   - ***short\**** `color`
   - ***vector\<Texture\*\>*** `chars`: a vector of textures corresponding to each character of `text`
   - ***Effect\**** `effects`
+  - [example](../examples/moveCursor.cpp)
