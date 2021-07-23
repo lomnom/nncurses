@@ -3,8 +3,9 @@
 
 #include <map>
 #include <string>
+#include <unordered_map>
 
-#define map std::map
+#define unordered_map std::unordered_map
 #define string std::string
 
 namespace nc{
@@ -16,7 +17,7 @@ namespace nc{
 		  |^topRight
 		  ^topLeft
 		*/
-		map<uint8_t,string> block={ //they dont have to be in a map but more readable
+		unordered_map<uint8_t,string> block={ //they dont have to be in a map but more readable
 			{0b0010,"▖",},
 			{0b0001,"▗",},
 			{0b1000,"▘",},
@@ -60,7 +61,7 @@ namespace nc{
 		//follows convention of top, bottom, left, right
 
 		//used this, who would suffer through categorising? https://gist.github.com/lomnom/96af7e2da44fbc02ac66285b5c9f55c4
-		map<uint8_t,string> lines={
+		unordered_map<uint8_t,string> lines={
 			{0b11010011,"┡"},
 			{0b01110011,"┢"},
 			{0b11110011,"┣"},
@@ -174,7 +175,7 @@ namespace nc{
 	}
 }
 
-#undef map
+#undef unordered_map
 #undef string
 
 #endif

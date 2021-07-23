@@ -1,5 +1,5 @@
 - ***namespace*** `AscBlok`: This namespace contains many block and block elements.
-  - ***map\<uint8_t,string\>*** `block`: std::map with block elements 
+  - ***unordered_map\<uint8_t,string\>*** `block`: std::unordered_map with block elements 
     block keys follow the following format:  
     ```cpp
     0bXXXX
@@ -24,7 +24,7 @@
     {" ","▁","▂","▃","▄","▅","▆","▇","█"}
     ```
 - ***namespace*** `AscBox`: many box drawing chars
-  - ***map\<uint8_t,string\>*** `lines`: std::map with all unicode box drawing chars besides dotted and angled  
+  - ***unordered_map\<uint8_t,string\>*** `lines`: std::unordered_map with all unicode box drawing chars besides dotted and angled  
     line keys follow the following format:  
     ```
     0b XX XX XX XX
