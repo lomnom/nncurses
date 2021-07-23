@@ -8,7 +8,8 @@
 #define cout std::cout
 #define vector std::vector
 #define string std::string
-#define RawController nc::RawController
+#define raw nc::raw
+#define unraw nc::unraw
 
 namespace nc{
 	class Screen{
@@ -70,10 +71,9 @@ namespace nc{
 	class Terminal{
 	public:
 		Screen screen;
-		RawController raw;
 
 		Terminal(Texture* fillTexture):screen(1,1,fillTexture){
-			raw.raw();
+			raw();
 			updatesize();
 			screen.fill();
 			pushup(); 
@@ -95,7 +95,7 @@ namespace nc{
 				}
 			}
 			cout << Esc::homecurs;
-			raw.unraw();
+			unraw();
 			cout << Esc::viscurs;
 		}
 

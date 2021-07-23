@@ -1,7 +1,4 @@
-- ***class*** `RawController()`:
-  - ***int()*** `raw()`: turn on raw mode. returns -1 on failure
-  - ***int()*** `unraw()`: turn off raw mode. returns -1 on failure
-  - ***struct termios*** `unrawterm`: The terminal at the state of object initialisation
+- ***int()*** `raw()`,`unraw()`: turn on and off raw mode. returns -1 on failure
   - example:
   ```cpp
   #include "Raw.hpp"
@@ -10,8 +7,7 @@
   #include <iostream>
 
   int main(){
-    nc::RawController rawCtrl;
-    rawCtrl.raw();
+    nc::raw();
     std::cout << "look! its raw mode!\n"
            "\\n doesnt move cursor back to start anymore, like this!\n\r"
            "you need a \\r to move the cursor back to the start!\n\r"
@@ -27,6 +23,6 @@
         std::cout << "Received key "+nc::Esc::fgblu+currCh+nc::Esc::rstfg+"!\n\r";
       }
     }
-    rawCtrl.unraw();
+    nc::unraw();
   }
   ```

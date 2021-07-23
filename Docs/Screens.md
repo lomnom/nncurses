@@ -15,7 +15,6 @@
   on init, it will push all text in the terminal up and turn on raw mode.  
   On uninit, it will remove it's footprint
   - ***Screen*** `screen` internal screen;
-  - ***RawController*** `raw`: control `raw`ness of the terminal
   - ***void()*** `updatesize`: update size of internal screen. screen should be resized with fill() after this.
   - ***void()*** `project()`: refresh the real screen
 
