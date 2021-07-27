@@ -1,6 +1,7 @@
 #include "Styles.hpp"
 #include "Raw.hpp"
 #include "EscFunc.hpp"
+#include <iostream>
 
 #ifndef Screens
 #define Screens
@@ -114,28 +115,29 @@ namespace nc{
 
 		void project(){ //currText=screen.screen[rowI][colI]
 			int colI=1;
-			string projString=Esc::rst+Esc::homecurs+screen.screen[0][0]->stylEsc+(*screen.screen[0][0]->character);
-			Texture* prevText=screen.screen[0][0];
+			string projString = Esc::rst + Esc::homecurs+screen.screen[0][0] -> stylEsc+( *screen.screen[0][0] ->character );
+			Texture* prevText= screen.screen[0][0];
 
-			for (int rowI=0;rowI<screen.rows;rowI++){
-				for (;colI<screen.cols;colI++){
-					if (screen.screen[rowI][colI]->style->effect==prevText->style->effect){
-						if (screen.screen[rowI][colI]->style->color!=prevText->style->color){
-							if (screen.screen[rowI][colI]->style->color->fg!=prevText->style->color->fg){
+			for (int rowI=0; rowI<screen.rows ;rowI++){
+				for (; colI<screen.cols ;colI++){
+					Texture* currText=screen.screen[rowI][colI];
+					if ( currText->style->effect == prevText->style->effect){
+						if ( currText->style->color != prevText->style->color){
+							if ( currText->style->color->fg != prevText->style->color->fg){
 								projString+=Esc::rstfg;
-								projString+=screen.screen[rowI][colI]->style->color->fgEsc;
+								projString+=currText->style->color->fgEsc;
 							}
-							if (screen.screen[rowI][colI]->style->color->bg!=prevText->style->color->bg){
+							if (currText->style->color->bg != prevText->style->color->bg){
 								projString+=Esc::rstbg;
-								projString+=screen.screen[rowI][colI]->style->color->bgEsc;
+								projString+=currText->style->color->bgEsc;
 							}
 						}
 					}else{
-						projString+=Esc::rst+screen.screen[rowI][colI]->stylEsc;
+						projString+=Esc::rst+currText->stylEsc;
 					}
 
-					projString+= *(screen.screen[rowI][colI]->character);
-					prevText=screen.screen[rowI][colI];
+					projString+= *(currText->character);
+					prevText=currText;
 				}
 				colI=0;
 			};
