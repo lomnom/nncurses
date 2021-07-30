@@ -36,29 +36,27 @@ namespace nc{
 		return result >= 0 ? result : result + b;
 	}
 
-	void bresenham(Screen* screen,Texture* texture,int startX,int startY,int endX,int endY){
-		int biggerX=startX>endX ? startX : endX;
-		int smallerX=startX<endX ? startX : endX;
-
-		int biggerY=startY>endY ? startY : endY;
-		int smallerY=startY<endY ? startY : endY;
-
-		int diffX=biggerX-smallerX;
-		int diffY=biggerY-smallerY;
-
-		int D=2*diffY-diffX;
-		screen->screen[smallerY][smallerX]=texture;
-		int y=startY>endY ? endY : startY;
-
-		for (int x=smallerX;x<biggerX;x++){
-			if (D>0){
-				y++;
-				screen->screen[y][x]=texture;
-				D += (2*diffY-2*diffX);
-			}else{
-				screen->screen[y][x]=texture;
-				D += 2*diffY;
+	void bresenham(Screen* screen,Texture texture,int startx, int starty, int endx, int endy){
+		int dx, dy, p, x, y;
+		dx=endx-startx;
+		dy=endy-starty;
+		
+		x=startx;
+		y=starty;
+		screen->screen[x][y]=texture;
+		
+		p=2*dy-dx;
+		
+		while(x<endx){
+			if(p>=0){
+				screen->screen[x][y]=texture;
+				y=y+1;
+				p= p+ 2*dy - 2*dx ;
+			} else{
+				screen->screen[x][y]=texture;
+				p= p+ 2*dy;
 			}
+			x=x+1;
 		}
 	}
 
@@ -67,35 +65,35 @@ namespace nc{
 		virtual void render(Screen*)=0;
 	};
 
-	class Line: public Renderable{
-	public:
-		Texture* texture;
-		int* startx;
-		int* starty;
-		int* endx;
-		int* endy;
-		Line(Texture* text,int* startx,int* starty,int* endx,int* endy):startx(startx),starty(starty),endx(endx),endy(endy),texture(text){}
+	// class Line: public Renderable{ //NOT WORKING SKRE
+	// public:
+	// 	Texture texture;
+	// 	int startx;
+	// 	int starty;
+	// 	int endx;
+	// 	int endy;
+	// 	Line(Texture text,int startx,int starty,int endx,int endy):startx(startx),starty(starty),endx(endx),endy(endy),texture(text){}
 
-		void render(Screen* screen){
-			bresenham(screen,texture,*startx,*starty,*endx,*endy);
-		}
-	};
+	// 	void render(Screen* screen){ // FLAWED, DOESNT WORK TODO: FIX
+	// 		bresenham(screen,texture,startx,starty,endx,endy);
+	// 	}
+	// };
 
 	class HollowRectangle: public Renderable{
 	public:
-		Texture* top;
-		Texture* bottom;
-		Texture* left;
-		Texture* right;
-		Texture* TLCorner;
-		Texture* TRCorner;
-		Texture* BLCorner;
-		Texture* BRCorner;
-		int* startx;
-		int* starty;
-		int* height;
-		int* width;
-		HollowRectangle(int* startx,int* starty,int* height,int* width,Texture* texture):
+		Texture top;
+		Texture bottom;
+		Texture left;
+		Texture right;
+		Texture TLCorner;
+		Texture TRCorner;
+		Texture BLCorner;
+		Texture BRCorner;
+		int startx;
+		int starty;
+		int height;
+		int width;
+		HollowRectangle(int startx,int starty,int height,int width,Texture texture):
 			top(texture),
 			bottom(texture),
 			left(texture),
@@ -109,7 +107,7 @@ namespace nc{
 			height(height),
 			width(width){}
 
-		HollowRectangle(int* startx,int* starty,int* height,int* width,Texture* texture,Texture* cornerTexture):
+		HollowRectangle(int startx,int starty,int height,int width,Texture texture,Texture cornerTexture):
 			top(texture),
 			bottom(texture),
 			left(texture),
@@ -123,7 +121,7 @@ namespace nc{
 			height(height),
 			width(width){}
 
-		HollowRectangle(int* startx,int* starty,int* height,int* width,Texture* horizTexture,Texture* vertTexture,Texture* cornerTexture):
+		HollowRectangle(int startx,int starty,int height,int width,Texture horizTexture,Texture vertTexture,Texture cornerTexture):
 			top(horizTexture),
 			bottom(horizTexture),
 			left(vertTexture),
@@ -137,7 +135,7 @@ namespace nc{
 			height(height),
 			width(width){}
 
-		HollowRectangle(int* startx,int* starty,int* height,int* width,Texture* horizTexture,Texture* vertTexture,Texture* TLCorner,Texture* TRCorner,Texture* BLCorner,Texture* BRCorner):
+		HollowRectangle(int startx,int starty,int height,int width,Texture horizTexture,Texture vertTexture,Texture TLCorner,Texture TRCorner,Texture BLCorner,Texture BRCorner):
 			top(horizTexture),
 			bottom(horizTexture),
 			left(vertTexture),
@@ -152,62 +150,84 @@ namespace nc{
 			width(width){}
 
 		void render(Screen* screen){
-			int endx= *startx+ *width-1;
-			int endy= *starty+ *height-1;
-			for (int x= *startx;x<=endx;x++){
-				screen->screen[ *starty][x]=top;
+			int endx= startx+ width-1;
+			int endy= starty+ height-1;
+			for (int x= startx ; x<=endx ; x++){
+				screen->screen[starty][x]=top;
 				screen->screen[endy][x]=bottom;
 			}
-			for (int y= *starty;y<=endy;y++){
-				screen->screen[y][ *startx]=left;
+			for (int y= starty;y<=endy;y++){
+				screen->screen[y][startx]=left;
 				screen->screen[y][endx]=right;
 			}
-			screen->screen[ *starty][ *startx]=TLCorner;
+			screen->screen[starty][startx]=TLCorner;
 			screen->screen[endy][endx]=BRCorner;
-			screen->screen[ *starty][endx]=TRCorner;
-			screen->screen[endy][ *startx]=BLCorner;
+			screen->screen[starty][endx]=TRCorner;
+			screen->screen[endy][startx]=BLCorner;
 		}
 	};
 
-	class TextLine: public Renderable{ //MEMLEAKKKKKK (gone)
+	class Text: public Renderable{
 	public:
-		string* text;
-		int* startx;
-		int* starty;
-		short* color;
-		vector<Texture*> chars;
-		Effect* effects;
-		TextLine(string* text,short* color,Effect* effects,int* startx,int* starty): startx(startx),starty(starty),text(text),color(color),effects(effects){}
+		string text;
+		int startx;
+		int starty;
+		Style style;
+		Text(string text,Style style,int startx,int starty): startx(startx),starty(starty),text(text),style(style){}
+		Text(string text,Style style): startx(0),starty(0),text(text),style(style){}
 
-		void render(Screen* screen){ //preserves bg col!!!!!!
-			deallocChars();
+		void render(Screen* scr){
+			int y=starty;
+			int x=startx;
+			for (int n=0;n<text.size();n++){
+				string currCh(1,text.at(n));
 
-			for (int n=0;n<text->length();n++){
-				chars.push_back(
-					new Texture(
-						new string(1,text->at(n))
-						,new Style(
-							new Col256(color,screen->screen[(*starty)][(*startx)+n]->style->color->bg),
+				if (currCh=="\n"){
+					y++;
+					x=startx;
+					continue;
+				}else{
+					scr->screen[y][x]=Texture(currCh,style);
+				}
+				x++;
+			}
+		}
+	};
+
+	class TranspText: public Renderable{
+	public:
+		string text;
+		int startx;
+		int starty;
+		Effect effects;
+		short fg;
+		TranspText(string text,Effect effects,short fg,int startx,int starty): startx(startx),starty(starty),text(text),fg(fg),effects(effects){}
+		TranspText(string text,Effect effects,short fg): startx(0),starty(0),text(text),fg(fg),effects(effects){}
+
+		void render(Screen* scr){
+			int y=starty;
+			int x=startx;
+			for (int n=0;n<text.size();n++){
+				string currCh(1,text.at(n));
+
+				if (currCh=="\n"){
+					y++;
+					x=startx;
+					continue;
+				}else{
+					scr->screen[y][x]=Texture(
+						currCh,
+						Style(
+							Col256(
+								fg,
+								scr->screen[y][x].style.color.bg
+							),
 							effects
 						)
-					)
-				);
-				screen->screen[(*starty)][(*startx)+n]=chars[n];
+					);
+				}
+				x++;
 			}
-		}
-
-		void deallocChars(){
-			for (int n=0;n<chars.size();n++){ //dealloc old chars
-				delete chars[n]->character;
-				delete chars[n]->style->color;
-				delete chars[n]->style;
-				delete chars[n];
-			}
-			chars.erase(chars.begin(),chars.end());
-		}
-
-		~TextLine(){
-			deallocChars();
 		}
 	};
 }

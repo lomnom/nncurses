@@ -4,174 +4,138 @@
 //g++ moveCursor.cpp --std=c++17 -O3 -o moveCursor && ./moveCursor
 
 using std::string,std::stoi,std::to_string,std::cout;
-using nc::toroid,nc::Effect,nc::Texture,nc::Col256,nc::Style,nc::midOfst,nc::HollowRectangle,nc::TextLine,nc::Terminal,nc::cinchr;
-namespace AscBox=nc::AscBox;
+using nc::toroid,nc::Effect,nc::Texture,nc::Col256,nc::Style,nc::midOfst,nc::HollowRectangle,nc::Text,nc::Terminal,nc::cinchr,nc::lines;
 namespace Esc=nc::Esc;
 
-short* black=new short(256);
-short* white=new short(252);
+Texture texture("·",Style(252,256,0));
+Texture background(" ",Style(252,256,0));
 
-uint8_t* effectsint=new uint8_t(0);
-Effect* effects=new Effect(effectsint);
+Texture vertLine("|",Style(252,256,0));
+Texture horizLine("-",Style(252,256,0));
+Texture corner("+",Style(252,256,0));
 
-Texture texture(new string("·"),new Style(new Col256(white,black),effects));
-Texture background(new string(" "),new Style(new Col256(black,black),effects));
+HollowRectangle tpWin(
+	0,0, //x,y
+	4,32, //height,width
+	horizLine,
+	vertLine,
+	corner
+);
 
-Texture vertLine(new string("|"),new Style(new Col256(white,black),effects));
-Texture horizLine(new string("-"),new Style(new Col256(white,black),effects));
-Texture corner(new string("+"),new Style(new Col256(white,black),effects));
+Text tpText("enter the coordinates to tp to",Style(252,256,0),0,0);
+Text inText("",Style(252,256,0),0,0);
+Text debText("",Style(252,256,0),0,0); //shows coords
 
-int winStartX=0;
-int winStartY=0;
-int winHeight=4;
-int winWidth=32;
-HollowRectangle tpWin(&winStartX,&winStartY,&winHeight,&winWidth,&horizLine,&vertLine,&corner);
+Terminal terminal(background);
 
-int txtX=0;
-int txtY=0;
-string tpTxtStr="enter the coordinates to tp to";
-TextLine tpText(&tpTxtStr,white,effects,&txtX,&txtY);
+Text helpText(
+	"w,a,s,d: movement\nq: quit\nt: toggle trippy\nm: teleport\nc: show coords",
+	Style(252,256,0),
+	0,0
+);
 
-int inTxtX=0;
-int inTxtY=0;
-string inTxtStr="";
-TextLine inText(&inTxtStr,white,effects,&inTxtX,&inTxtY);
-
-string debTxtStr="";
-int debTxtX=0;
-int debTxtY=0;
-TextLine debText(&debTxtStr,white,effects,&debTxtX,&debTxtY);
-
-Terminal terminal(&background);
-
-void teleportHandle(int* x,int* y){
-	winStartX=midOfst(terminal.screen.cols,winWidth);
-	winStartY=midOfst(terminal.screen.rows,winHeight);
-	txtY=winStartY+1;
-	txtX=midOfst(terminal.screen.cols,(int)tpTxtStr.size());
-
-	string inX="";
-	string inY=inX;
-	uint8_t phase=0;
-
-	while (true){
-		if (phase){
-			inTxtStr="x: "+inX+" y: "+inY;
-		}else{
-			inTxtStr="x: "+inX;
-		}
-
-		inTxtY=winStartY+2;
-		inTxtX=midOfst(terminal.screen.cols,(int)inTxtStr.size());
-		terminal.screen.fill();
-		inText.render(&terminal.screen);
-		tpText.render(&terminal.screen);
-		tpWin.render(&terminal.screen);
-		terminal.project();
-
-		char inChar=cinchr();
-		if (std::isdigit(inChar)){
-			if (phase){
-				inY+=inChar;
-			}else{
-				inX+=inChar;
-			}
-		}else{
-			if (phase){
-				if (!(inY.size()==0)){
-					break;
-				}
-			}else{
-				if (!(inX.size()==0)){
-					phase++;
-				}
-			}
-		}
-	}
-
-	terminal.screen.fill();
-
-	*y=stoi(inY)%terminal.screen.rows;
-	*x=stoi(inX)%terminal.screen.cols;
-}
-
-string helpTxtStr="w,a,s,d: movement, q: quit, t: toggle trippy, m: teleport, c: show coords";
-int helpTxtX=0;
-int helpTxtY=0;
-TextLine helpText(&helpTxtStr,white,effects,&helpTxtX,&helpTxtY);
-
-int helpWinStartX=0;
-int helpWinStartY=0;
-int helpWinHeight=3;
-int helpWinWidth=75;
-HollowRectangle helpWin(&helpWinStartX,&helpWinStartY,&helpWinHeight,&helpWinWidth,&horizLine,&vertLine,&corner);
-
-void help(){
-	helpWinStartX=midOfst(terminal.screen.cols,helpWinWidth);
-	helpWinStartY=midOfst(terminal.screen.rows,helpWinHeight);
-	helpTxtX=helpWinStartX+1;
-	helpTxtY=helpWinStartY+1;
-	terminal.screen.fill();
-	helpText.render(&terminal.screen);
-	helpWin.render(&terminal.screen);
-	terminal.project();
-	cinchr();
-	terminal.screen.fill();
-}
+HollowRectangle helpWin(0,0,7,19,horizLine,vertLine,corner);
 
 int main(){
 	int x=0,y=0;
-	bool ended=false;
 	bool trippy=false;
 	bool debug=false;
 	
-	while (!(ended)){
-		terminal.screen.screen[toroid(y,terminal.screen.rows)][toroid(x,terminal.screen.cols)]=&texture;
+	while (true){
+		terminal.screen.screen[toroid(y,terminal.screen.rows)][toroid(x,terminal.screen.cols)]=texture;
 		if (trippy){
-			terminal.screen.renderPart(&terminal.screen,2,2,0,0,5,5);
-			terminal.screen.render(&terminal.screen,5,5);
+			terminal.screen.renderPart(&terminal.screen,2,2,0,0,5,5); //ok
+			terminal.screen.renderPart(&terminal.screen,5,5,0,0,terminal.screen.cols-5,terminal.screen.rows-5);
 		}
 		if(debug){
-			debTxtStr="x: "+to_string(x)+", y: "+to_string(y)+", trippy: "+(trippy ? "true" : "false");
+			debText.text="x: "+to_string(x)+", y: "+to_string(y)+", trippy: "+(trippy ? "true" : "false");
 			debText.render(&terminal.screen);
 		}
 		terminal.project();
 		terminal.updatesize();
 		terminal.screen.fill();
 
-		switch (cinchr()){
-			case 'w':
-				y--;
-				texture.character=&AscBox::lines[0b11010000];
-				break;
-			case 's':
-				y++;
-				texture.character=&AscBox::lines[0b01110000];
-				break;
-			case 'd':
-				x++;
-				texture.character=&AscBox::lines[0b00000111];
-				break;
-			case 'a':
-				x--;
-				texture.character=&AscBox::lines[0b00001101];
-				break;
-			case 'q':
-				ended=true;
-				break;
-			case 't':
-				trippy= !(trippy);
-				break;
-			case 'm':
-				teleportHandle(&x,&y);
-				break;
-			case 'c':
-				debug= !(debug);
-				break;
-			case 'h':
-				help();
-			default:
-				cout << Esc::bell;
+		char keyCh=cinchr();
+		if (keyCh=='w'){
+			y--;
+			texture.character=lines[0b11010000];
+		}else if (keyCh=='s'){
+			y++;
+			texture.character=lines[0b01110000];
+		}else if (keyCh=='d'){
+			x++;
+			texture.character=lines[0b00000111];
+		}else if (keyCh=='a'){
+			x--;
+			texture.character=lines[0b00001101];
+		}else if (keyCh=='q'){
+			break;
+		}else if (keyCh=='t'){
+			trippy= !(trippy);
+		}else if (keyCh=='m'){
+			tpWin.startx=midOfst(terminal.screen.cols,tpWin.width);
+			tpWin.starty=midOfst(terminal.screen.rows,tpWin.height);
+			tpText.starty=tpWin.starty+1;
+			tpText.startx=midOfst(terminal.screen.cols,(int)tpText.text.size());
+
+			string inX="";
+			string inY="";
+			uint8_t phase=0;
+
+			while (true){
+				if (phase){
+					inText.text="x: "+inX+" y: "+inY;
+				}else{
+					inText.text="x: "+inX;
+				}
+
+				inText.starty=tpWin.starty+2;
+				inText.startx=midOfst(terminal.screen.cols,(int)tpText.text.size());
+				terminal.screen.fill();
+				inText.render(&terminal.screen);
+				tpText.render(&terminal.screen);
+				tpWin.render(&terminal.screen);
+				terminal.project();
+
+				char inChar=cinchr();
+				if (std::isdigit(inChar)){
+					if (phase){
+						inY+=inChar;
+					}else{
+						inX+=inChar;
+					}
+				}else{
+					if (phase){
+						if (!(inY.size()==0)){
+							break;
+						}
+					}else{
+						if (!(inX.size()==0)){
+							phase++;
+						}
+					}
+				}
+			}
+
+			terminal.screen.fill();
+
+			y=stoi(inY);
+			x=stoi(inX);
+		}else if (keyCh=='c'){
+			debug= !(debug);
+		}else if (keyCh=='h'){
+			helpWin.startx=midOfst(terminal.screen.cols,helpWin.width);
+			helpWin.starty=midOfst(terminal.screen.rows,helpWin.height);
+			helpText.startx=helpWin.startx+1;
+			helpText.starty=helpWin.starty+1;
+			terminal.screen.fill();
+			helpText.render(&terminal.screen);
+			helpWin.render(&terminal.screen);
+			terminal.project();
+			cinchr();
+			terminal.screen.fill();
+		}else{
+			cout << Esc::bell;
 		}
 	}
 	return 0;

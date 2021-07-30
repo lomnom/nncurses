@@ -36,6 +36,7 @@ namespace nc{
 		string inviscurs="\e[?25l"; //make cursor invisible
 		string viscurs="\e[?25h"; //make cursor visible
 
+		// \e[row+1;col+1H
 		string homecurs="\e[H"; //move cursor to home (0,0)
 		string movcurs(int row,int col){
 			return "\e["+to_string(row+1)+";"+to_string(col+1)+"H"; //yes, coords in a terminal start from (1,1), which is comfusing, so i masked it

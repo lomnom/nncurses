@@ -15,14 +15,13 @@
 namespace nc{
 	class Screen{
 	public:
-		vector< vector<Texture*> > screen={};
-		vector< vector<Texture*> > filler={};
-		vector<Texture*> fillerRow={};
-		Texture* fillerTexture;
+		vector< vector<Texture> > screen={};
+		vector< vector<Texture> > filler={};
+		Texture fillerTexture;
 		int rows,cols;
 		int oldRows,oldCols;
 
-		Screen(int rows, int cols,Texture* filler):
+		Screen(int rows, int cols,Texture filler):
 			rows(rows)
 			,cols(cols)
 			,oldRows(rows-1)
@@ -43,7 +42,7 @@ namespace nc{
 
 		void generateFill(){
 			filler.erase(filler.begin(),filler.end());
-			fillerRow.erase(fillerRow.begin(),fillerRow.end());
+			vector<Texture> fillerRow;
 			for (int colI=0;colI<cols;colI++){
 				fillerRow.push_back(fillerTexture);
 			}
@@ -73,7 +72,7 @@ namespace nc{
 	public:
 		Screen screen;
 
-		Terminal(Texture* fillTexture):screen(1,1,fillTexture){
+		Terminal(Texture fillTexture):screen(1,1,fillTexture){
 			raw();
 			updatesize();
 			screen.fill();
@@ -115,28 +114,26 @@ namespace nc{
 
 		void project(){ //currText=screen.screen[rowI][colI]
 			int colI=1;
-			string projString = Esc::rst + Esc::homecurs+screen.screen[0][0] -> stylEsc+( *screen.screen[0][0] ->character );
-			Texture* prevText= screen.screen[0][0];
+			string projString = Esc::rst + Esc::homecurs + screen.screen[0][0].style.getesc() + screen.screen[0][0].character;
+			Texture prevText= screen.screen[0][0];
 
 			for (int rowI=0; rowI<screen.rows ;rowI++){
 				for (; colI<screen.cols ;colI++){
-					Texture* currText=screen.screen[rowI][colI];
-					if ( currText->style->effect == prevText->style->effect){
-						if ( currText->style->color != prevText->style->color){
-							if ( currText->style->color->fg != prevText->style->color->fg){
-								projString+=Esc::rstfg;
-								projString+=currText->style->color->fgEsc;
-							}
-							if (currText->style->color->bg != prevText->style->color->bg){
-								projString+=Esc::rstbg;
-								projString+=currText->style->color->bgEsc;
-							}
+					Texture currText=screen.screen[rowI][colI];
+					if ( currText.style.effect.effects == prevText.style.effect.effects){
+						if ( currText.style.color.fg != prevText.style.color.fg){
+							projString+=Esc::rstfg;
+							projString+=currText.style.color.getFgEsc();
+						}
+						if (currText.style.color.bg != prevText.style.color.bg){
+							projString+=Esc::rstbg;
+							projString+=currText.style.color.getBgEsc();
 						}
 					}else{
-						projString+=Esc::rst+currText->stylEsc;
+						projString+=Esc::rst+currText.style.getesc();
 					}
 
-					projString+= *(currText->character);
+					projString+= currText.character;
 					prevText=currText;
 				}
 				colI=0;
