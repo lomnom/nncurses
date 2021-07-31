@@ -21,11 +21,11 @@ namespace nc{
 		}
 
 		string getFgEsc(){
-			return fg>=0 ? Esc::fgidcol(fg) : "";
+			return fg>=0 ? Esc::fgidcol(fg) : Esc::rstfg;
 		}
 
 		string getBgEsc(){
-			return bg>=0 ? Esc::bgidcol(bg) : "";
+			return bg>=0 ? Esc::bgidcol(bg) : Esc::rstfg;
 		}
 
 		Col256 operator+(Col256 othcol){ //layer another color onto self

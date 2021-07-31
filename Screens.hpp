@@ -122,11 +122,9 @@ namespace nc{
 					Texture currText=screen.screen[rowI][colI];
 					if ( currText.style.effect.effects == prevText.style.effect.effects){
 						if ( currText.style.color.fg != prevText.style.color.fg){
-							projString+=Esc::rstfg;
 							projString+=currText.style.color.getFgEsc();
 						}
 						if (currText.style.color.bg != prevText.style.color.bg){
-							projString+=Esc::rstbg;
 							projString+=currText.style.color.getBgEsc();
 						}
 					}else{
