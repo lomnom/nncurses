@@ -1,0 +1,17 @@
+DO WHATEVER YOU WANT, JUST CREDIT ME LICENSE
+Version 0, July 2021
+
+u/dalithop
+github.com/lomnom
+
+Everyone is permitted to copy and distribute this license document, and changing is allowed as long as you credit me, u/dalithop. 
+u/dalithop WILL NOT BE RESPONSIBLE FOR THE STUPID THINGS YOU DO WITH THIS LICENSE!
+
+TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+0. You can distribute this program, for fee or charged, as long as you credit the author of this program.
+1. You may modify this program, as long as you credit the author of this program and include this license.
+2. You may include a portion of this program in your code provided that you credit the author of this program in said source code protion and include this license in your program.
+3. Not adhereing to the rules of this license will automatically terminate your rights under this license.
+
+NO WARRANTY
+0. THE AUTHOR OF THIS PROGRAM WILL NOT BE RESPONSIBLE FOR THE STUPID THINGS YOU DO WITH THIS PROGRAM!
