@@ -25,7 +25,7 @@ namespace nc{
 		}
 
 		string getBgEsc(){
-			return bg>=0 ? Esc::bgidcol(bg) : Esc::rstfg;
+			return bg>=0 ? Esc::bgidcol(bg) : Esc::rstbg;
 		}
 
 		Col256 operator+(Col256 othcol){ //layer another color onto self
