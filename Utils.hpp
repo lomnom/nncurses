@@ -47,9 +47,10 @@ namespace nc{
 	};
 
 	class TimeLimiter{
-		double limitTime;
+	public:
+		long double time;
 		TimeTracker tracker;
-		TimeLimiter(double time):limitTime(time){}
+		TimeLimiter(long double time):time(time){} //time is in ms
 
 		void start(){
 			tracker.start();
@@ -60,11 +61,11 @@ namespace nc{
 		}
 
 		void delay(){
-			double sleepTime=tracker.time()-limitTime*1000*1000;
+			double sleepTime=time-(tracker.time());
 			sleepTime= sleepTime>0 ? sleepTime : 0;
 
 			int sleepTimeMs=sleepTime;
-			int sleepTimeMcrs=(sleepTime-((double)sleepTimeMs))*1000;
+			int sleepTimeMcrs=(sleepTime-(int)sleepTime)*1000;
 
 			nc::sleep(0,sleepTimeMs,sleepTimeMcrs,0);
 		}
