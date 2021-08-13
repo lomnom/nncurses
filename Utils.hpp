@@ -2,10 +2,6 @@
 #define Utils
 #include <time.h>
 #include <chrono>
-using std::chrono::high_resolution_clock;
-using std::chrono::duration_cast;
-using std::chrono::duration;
-using std::chrono::milliseconds;
 
 namespace nc{
 	void sleep(int sec=1,int msec=0,int mcrsec=0,int nsec=0){
@@ -20,19 +16,19 @@ namespace nc{
 	
 	class TimeTracker{
 	public:
-		std::chrono::steady_clock::time_point startTime;
-		std::chrono::steady_clock::time_point endTime;
-		duration<double, std::milli> timeTime;
+		std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
+		std::chrono::time_point<std::chrono::high_resolution_clock> endTime;
+		std::chrono::duration<double, std::milli> timeTime;
 		bool ended;
 		TimeTracker(): ended(false){}
 
 		void start(){
-			startTime=high_resolution_clock::now();
+			startTime=std::chrono::high_resolution_clock::now();
 			ended=false;
 		}
 
 		void end(){
-			endTime=high_resolution_clock::now();
+			endTime=std::chrono::high_resolution_clock::now();
 			timeTime=endTime-startTime;
 			ended=true;
 		}
@@ -71,10 +67,5 @@ namespace nc{
 		}
 	};
 }
-
-#undef high_resolution_clock
-#undef duration_cast
-#undef duration
-#undef milliseconds
 
 #endif
