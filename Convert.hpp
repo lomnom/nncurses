@@ -106,7 +106,7 @@ namespace nc{
 
 	/////////////rgb to xterm
 	uint8_t approxXt(bool gsBlack,uint8_t greynessTresh,uint8_t brightnessTresh,array<uint8_t,3> color){ 
-		return brightness(color)<brightnessTresh || (gsBlack && (color[0]<95 && color[1]<95 && color[2]<95)) || greyness(color)>greynessTresh ? 232+approxGs(color) : 16+approxNc(color);
+		return (gsBlack && (color[0]<95 && color[1]<95 && color[2]<95)) || brightness(color)<brightnessTresh || greyness(color)>greynessTresh ? 232+approxGs(color) : 16+approxNc(color);
 	}
 
 	array<uint8_t,3> xtTOrgb(uint8_t xt){
