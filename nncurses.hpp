@@ -9,5 +9,6 @@
 #include "Renderables.hpp"
 #include "Asciichrs.hpp"
 #include "Utils.hpp"
+#include "Convert.hpp"
 
 #endif
