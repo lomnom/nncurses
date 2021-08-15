@@ -6,5 +6,11 @@
   - ***bool*** `ended`: if ended yet
   - ***void()*** `start()`: sets startTime and makes ended false
   - ***void()*** `end()`: sets endTime and makes ended true
-  - ***double()*** `time()`: returns the time between startTime and endTime in ms as double if ended is true. returns -1 otherwise.
+  - ***double()*** `time()`: returns the timeTime as double if ended is true. returns -1 otherwise.
   - [example](../examples/spamgame)
+- ***class TimeLimiter***: Limits time accurately, accounting for time taken by computations.
+  - ***long double*** `time`: mimnimum amount of time that should pass between `start()` and `end();delay();`
+  - ***TimeTracker*** `tracker`: internal time tracker used for start() and end()
+  - ***void()*** `start()`: starts time frame
+  - ***void()*** `end()`: ends time frame
+  - ***void()*** `delay()`: delays `time`-`tracker.time()` time

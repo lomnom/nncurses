@@ -30,16 +30,8 @@
   - ***int*** `height`
   - ***int*** `width`
   - [example](../examples/moveCursor.cpp)
-- ***class*** `Text(string text,Style style,int startx,int starty)`
-  ***class*** `Text(string text,Style style)` (startX and starty both 0): Text renderable  
-  - ***void()*** `render(Screen* screen)`: render text
-  - ***string*** `text`
-  - ***int*** `startx`
-  - ***int*** `starty`
-  - ***Style*** `style`
-  - [example](../examples/moveCursor.cpp)
 - ***class*** `Text(string text,Style style,int startx,int starty)`  
-  ***class*** `Text(string text,Style style)` (startX and starty both 0): Text renderable  
+  ***class*** `Text(string text,Style style)` (startX and starty both 0): Text renderable. Handles `\n`s properly  
   - ***void()*** `render(Screen* screen)`: render text
   - ***string*** `text`
   - ***int*** `startx`

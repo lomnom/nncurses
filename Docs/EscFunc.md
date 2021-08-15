@@ -9,3 +9,4 @@
   }
   ```
 - ***char()*** `cinchr()`: reads one char from stdin and returns it
+- ***char()*** `ubCinchr()`: reads one char from stdin and returns it. Has a timout of 0.1s.
