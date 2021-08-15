@@ -16,21 +16,8 @@ namespace nc{
 		return x<col[2] ? col[2] : x;
 	}
 
-	int dist(array<uint8_t,3> a,array<uint8_t,3> b){
-		return std::sqrt((a[0]-b[0])^2+(a[1]-b[1])^2+(a[2]-a[2])^2);
-	}
-
-	uint16_t abs(int16_t n){ 
-		int16_t const mask = n >> (sizeof(int16_t) * 8 - 1); 
-		return ((n + mask) ^ mask);
-	} 
-
-	uint16_t diff(int16_t a,int16_t b){
-		return abs(a-b);
-	}
-
 	uint8_t greyness(array<uint8_t,3> col){ //lmao
-		return (diff(col[0],(col[1]+col[2])/2)+diff(col[1],(col[0]+col[2])/2)+diff(col[2],(col[1]+col[0])/2))/3;
+		return (diff((int)col[0],(col[1]+col[2])/2)+diff((int)col[1],(col[0]+col[2])/2)+diff((int)col[2],(col[1]+col[0])/2))/3;
 	}
 
 	uint8_t brightness(array<uint8_t,3> col){ //lmao

@@ -15,6 +15,11 @@ namespace nc{
 	}
 
 	template<class T>
+	T diff(T a,T b){
+		return abs(a-b);
+	}
+
+	template<class T>
 	T smaller(T a,T b){
 		return a>b ? b : a;
 	}
