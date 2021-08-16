@@ -102,8 +102,8 @@ namespace nc{
 	int16_t approxXt(bool gsBlack,uint8_t greynessTresh,uint8_t brightnessTresh,array<int16_t,3> color){ 
 		int16_t bright=brightness(color);
 		return (gsBlack && (color[0]<95 && color[1]<95 && color[2]<95)) || //change completely black pixels with greyscale
-			   bright<brightnessTresh || //make colors darker than brightnessTresh greyscale
-			   greyness(color)>greynessTresh //make color grey if greyness > greynessTresh
+			   bright<=brightnessTresh || //make colors darker than brightnessTresh greyscale
+			   greyness(color)>=greynessTresh //make color grey if greyness >= greynessTresh
 			   ? approxGs(bright) : approxNc(color);
 	}
 
