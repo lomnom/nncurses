@@ -22,9 +22,8 @@ namespace nc{
     }
 
     char ubCinchr(){
-        struct termios orig_termios;
-        tcgetattr(STDIN_FILENO, &orig_termios);
-        struct termios raw=orig_termios;
+        struct termios raw;
+        tcgetattr(STDIN_FILENO, &raw);
 
         raw.c_cc[VTIME] = 1;
         raw.c_cc[VMIN] = 0;
@@ -33,7 +32,11 @@ namespace nc{
         char c='\0';
         read(STDIN_FILENO, &c, 1);
 
-        tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+        struct termios unraw;
+        tcgetattr(STDIN_FILENO, &unraw);
+        unraw.c_cc[VTIME] = 1;
+        unraw.c_cc[VMIN] = 1;
+        tcsetattr(STDIN_FILENO, TCSAFLUSH, &unraw);
 
         return c;
     }
