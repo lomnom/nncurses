@@ -15,6 +15,39 @@ namespace nc{
 
 		return tim2;
 	}
+
+	class Stopwatch{ //hmm
+	public:
+		std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
+		std::chrono::time_point<std::chrono::high_resolution_clock> endTime;
+		double othTime=0;
+		bool stopped=false;
+
+		void start(){
+			startTime=std::chrono::high_resolution_clock::now();
+			stopped=false;
+		}
+
+		void stop(){
+			std::chrono::duration<double, std::milli> timeTime=std::chrono::high_resolution_clock::now()-startTime;
+			othTime+=timeTime.count();
+			stopped=true;
+		}
+
+		double time(){
+			if (!(stopped)){
+				std::chrono::duration<double, std::milli> timeTime=std::chrono::high_resolution_clock::now()-startTime;
+				return othTime+timeTime.count();
+			}else{
+				return othTime;
+			}
+		}
+
+		void reset(){
+			stopped=true;
+			othTime=0;
+		}
+	};
 	
 	class TimeTracker{
 	public:
