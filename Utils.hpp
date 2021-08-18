@@ -4,7 +4,7 @@
 #include <chrono>
 
 namespace nc{
-	void sleep(int sec=1,int msec=0,int mcrsec=0,int nsec=0){
+	struct timespec sleep(size_t sec=1,size_t msec=0,size_t mcrsec=0,size_t nsec=0){
 		struct timespec tim, tim2;
 		tim.tv_sec=sec;
 		tim.tv_nsec=nsec+(((msec*1000)+mcrsec)*1000);
@@ -12,6 +12,8 @@ namespace nc{
 		if(nanosleep(&tim , &tim2)<0){
 			throw -1;
 		}
+
+		return tim2;
 	}
 	
 	class TimeTracker{

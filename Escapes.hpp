@@ -7,7 +7,7 @@
 #define to_string std::to_string
 
 namespace nc{
-	namespace Esc{
+	namespace esc{
 		string bell="\a";
 		string bksp="\b"; //backspace
 		string ff="\f"; //formfeed
@@ -134,6 +134,7 @@ namespace nc{
 		string freeze="\ec"; //???
 		string nothing=""; //ah yes
 	}
+	namespace Esc=esc;
 }
 
 #undef string
