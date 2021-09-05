@@ -115,11 +115,11 @@ namespace nc{
 		void project(){ //currText=screen.screen[rowI][colI]
 			int colI=1;
 			string projString = Esc::rst + Esc::homecurs + screen.screen[0][0].style.getesc() + screen.screen[0][0].character;
-			Texture prevText= screen.screen[0][0];
+			Texture& prevText= screen.screen[0][0];
 
 			for (int rowI=0; rowI<screen.rows ;rowI++){
 				for (; colI<screen.cols ;colI++){
-					Texture currText=screen.screen[rowI][colI];
+					Texture& currText=screen.screen[rowI][colI];
 					if ( currText.style.effect.effects == prevText.style.effect.effects){
 						if ( currText.style.color.fg != prevText.style.color.fg){
 							projString+=currText.style.color.getFgEsc();

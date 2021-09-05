@@ -60,7 +60,7 @@ namespace nc{
 			return "\e["+to_string(n)+"E";
 		};
 		string colcurs(int n){
-			return "\e["+to_string(n-1)+"G";
+			return "\e["+to_string(n+1)+"G";
 		}
 
 		string clrscr="\e[H\e[J"; //yes, i know its \e[J, but it doesnt work for some reason, probably bc curs needs to be home first. it also clears scrollback on iterm2
