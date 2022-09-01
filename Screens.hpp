@@ -138,7 +138,7 @@ namespace nc{
 			};
 			projString+=Esc::rst;
 
-			cout << projString;
+			cout << projString << endl;
 		}
 	};
 }
