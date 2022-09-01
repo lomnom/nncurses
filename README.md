@@ -1,5 +1,4 @@
 # nncurses: ncurses but better
-# Disclaimer: no longer being mantained in favor of [CopperUi](https://github.com/lomnom/CopperUi)
 Rescources:
   - (comfusing) [Docs](Docs/Docs.md)
   - [Examples](examples)
