@@ -26,15 +26,15 @@
   line keys follow the following format:  
   ```
   0b XX XX XX XX
-             ^right line
-          ^left line
-       ^bottom line
-    ^top line
+     |  |  |  ^right line
+     |  |  ^left line
+     |  ^bottom line
+     ^top line
   00 - nothing ( )
   01 - thin line (│)
   10 - double line (║)
   11 - thick line (┃)
   ```
   for example:
-    - `lines[0b01010101]` yields `┼`
-    - `lines[0b00010111]` yields `┮`
+    - `lines[0b 01 01 01 01]` yields `┼`
+    - `lines[0b 00 01 01 11]` yields `┮`
