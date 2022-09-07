@@ -1,6 +1,6 @@
 # nncurses: ncurses but better
-Rescources:
-  - (comfusing) [Docs](Docs/Docs.md)
+Resources:
+  - (confusing) [Docs](Docs/Docs.md)
   - [Examples](examples)
 ## Simple hello world
 ```cpp
@@ -9,8 +9,8 @@ Rescources:
 using namespace nc;
 
 int main(){
-  Terminal terminal(Texture("#",Style(6,2,EfctMasks::ital))); //initialise virtual terminal and real terminal
-  Text hello("Hello world!!!",Style(17,2,EfctMasks::bld|EfctMasks::ital)); //initialise text object
+  Terminal terminal( Texture("#", Style(6,2,EfctMasks::ital) ) ); //initialise virtual terminal and real terminal
+  Text hello("Hello world!!!", Style(17,2,EfctMasks::bld|EfctMasks::ital) ); //initialise text object
   hello.startx=midOfst(terminal.screen.cols,helloLen); //center the text horizontally
   hello.starty=terminal.screen.rows/2; //center the text vertically
   hello.render(&terminal.screen); //render text onto virtual screen
@@ -39,9 +39,8 @@ int main(){
     else if (inCh=='s') hello.starty++; //move text down
     else if (inCh=='a') hello.startx--; //move text left
     else if (inCh=='d') hello.startx++; //move text right
-    else if (inCh=='c') terminal.screen.fill(); //clear remnants of old hello worlds (pretty fast)
+    else if (inCh=='c') terminal.screen.fill(); //clear remnants of old hello world
     else cout << Esc::bell; //make noise if invalid char
   }
 }
 ```
-**This library is C++20**
